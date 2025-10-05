@@ -49,16 +49,16 @@ class Config(BaseSettings):
 
 config = Config()
 
-def start_bot() -> Bot:
-    logger.info("Start connecting bot")
-    try:
-        bot = Bot(config.BOT_TOKEN.get_secret_value())
-        dp = Dispatcher()
-        logger.info("Bot connection successed")
-    except Exception as ex:
-        logger.error(f"Bot connection refused. Error: {ex}")
-        logger.info("Stopping app")
-        sys.exit(1)
+logger.info("Start connecting bot")
+try:
+    bot = Bot(config.BOT_TOKEN.get_secret_value())
+    dp = Dispatcher()
+    logger.info("Bot connection successed")
+except Exception as ex:
+    logger.error(f"Bot connection refused. Error: {ex}")
+    logger.info("Stopping app")
+    sys.exit(1)
+
 
 TORTOISE_ORM = {
     "connections": {"default": None},
