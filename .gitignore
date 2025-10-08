@@ -1,0 +1,9 @@
+# vs code config folder
+.vscode
+
+# python env
+.venv
+
+# python
+__pycache__/
+.pytest_cache
