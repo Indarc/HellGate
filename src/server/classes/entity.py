@@ -35,17 +35,24 @@ class Level:
         return (self.experience, self.max_experience)
 
     def lvl_up(self):
-        remnant = self.max_experience - self.experience
+        # remnant = self.max_experience - self.experience
         self.level += 1
-        self.experience = remnant
+        self.experience = self.experience - self.max_experience
         self.max_experience = self.level * 10
 
         # TODO: message to user about level up
+
+        if self.experience >= self.max_experience:
+            self.lvl_up()
 
     def add_exp(self, exp):
         self.experience += exp
         if self.experience >= self.max_experience:
             self.lvl_up()
+
+class AtackResult:
+    def __init__(self, alive: bool=True):
+        self.alive = alive
 
 class Entity:
     def __init__(self, name: str):
@@ -55,13 +62,13 @@ class Entity:
         self.health = self.max_health()
         self.armor = 0
     
-    def banner(self) -> str:
+    def banner(self) -> str: # TODO: to player banner
         exp = self.level.get_experience()
         text = f"""
 ❤️HP: {self.health}/{self.max_health()}
 ⚔️Урон: {self.damage()}
 🛡️Броня: {self.armor}
-Никнейм: {self.name}
+Имя: {self.name}
 Уровень: {self.level.get_level()}
 Exp: {exp[0]}/{exp[1]}
 
@@ -72,6 +79,7 @@ Exp: {exp[0]}/{exp[1]}
 🧠Интелект: {self.stats.intelligence}
 🎯Точность: {self.stats.accuracy}
 """
+        return text
     
     def damage(self) -> int:
         return self.stats.damage()
@@ -86,16 +94,14 @@ Exp: {exp[0]}/{exp[1]}
         self.level.add_exp(exp)
     
     def atack(self, target: "Entity"):
-        # TODO: armor
-        target.take_damage(self.damage)
+        # TODO: crit and more
+        atack_result = target.take_damage(self.damage())
 
-    def take_damage(self, dmg: int):
+    def take_damage(self, dmg: int) -> AtackResult:
         # TODO: evasion chance
+        # TODO: armor
         self.health -= dmg
-        if self.check_alive():
-            ...
-        else:
-            ...
+        return AtackResult(self.check_alive())
 
     def check_alive(self) -> bool:
         if self.health <= 0:
