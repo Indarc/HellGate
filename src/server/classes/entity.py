@@ -61,26 +61,7 @@ class Entity:
         self.stats = Stats()
         self.health = self.max_health()
         self.armor = 0
-    
-    def banner(self) -> str: # TODO: to player banner
-        exp = self.level.get_experience()
-        text = f"""
-❤️HP: {self.health}/{self.max_health()}
-⚔️Урон: {self.damage()}
-🛡️Броня: {self.armor}
-Имя: {self.name}
-Уровень: {self.level.get_level()}
-Exp: {exp[0]}/{exp[1]}
 
-Атрибуты:
-🫀Выносливость: {self.stats.stamina}
-💪Сила: {self.stats.power}
-🤲Ловкость: {self.stats.agility}
-🧠Интелект: {self.stats.intelligence}
-🎯Точность: {self.stats.accuracy}
-"""
-        return text
-    
     def damage(self) -> int:
         return self.stats.damage()
     
@@ -108,3 +89,16 @@ Exp: {exp[0]}/{exp[1]}
             return False
         else:
             return True
+    
+    def battle_banner(self) -> str:
+        text = f"""
+❤️HP: {self.health}/{self.max_health()}
+Имя: {self.name}
+Уровень: {self.level.get_level()}
+
+⚔️Урон: {self.damage()}
+🛡️Броня: {self.armor}
+👟Уклонение: {self.evasion()}
+🎯Точность: {self.stats.accuracy}
+"""
+        return text
