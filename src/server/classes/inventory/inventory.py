@@ -65,8 +65,13 @@ class Inventory:
         
         if count > 1:
             slot = self.items.get(slot_id)
-            item = slot.get("item")
-            count = slot.get("count")
+            item = slot.item
+            count = slot.count
+            if count > slot.count:
+                count = slot.count
+            if count == slot.count:
+                self.items[slot_id].item = None
+                self.items[slot_id].count = 0
     
     def items_count(self) -> list[list[Item, int]]:
         counter: list[list[Item, int]] = []

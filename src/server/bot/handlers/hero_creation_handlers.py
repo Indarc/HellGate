@@ -3,6 +3,8 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from server.bot.handlers.catch import Catch
+from server.classes.player import Player
+from server.classes.user_class import User
 from config import setup_logger
 
 
@@ -26,3 +28,6 @@ async def nickname_catch(message: Message, state: FSMContext):
     
     user_input = data.get("message")
     user_input = clear_string(user_input)
+
+    hero = Player(user_input)
+    user = User(message.chat.id, hero)

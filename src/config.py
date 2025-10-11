@@ -65,7 +65,7 @@ TORTOISE_ORM = {
     "apps": {
         "models": {
             "models": [
-                "db.models.user"
+                "db.models.users"
             ],
             "default_connection": "default"
         }
