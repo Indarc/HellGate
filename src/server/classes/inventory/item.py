@@ -1,10 +1,11 @@
-class Item:
-    def __init__(self, id: int, name: str, cost: int, weight: float, description: str, emoji: str=None):
+class Item: # base class for all items
+    def __init__(self, id: int, name: str, cost: int, weight: float, description: str, stacked: bool, emoji: str=None):
         self._id = id
         self.name = name
         self.cost = cost
         self.description = description
         self.emoji = emoji
+        self.stacked = stacked
         # TODO: item image
     
     def banner(self) -> str:
