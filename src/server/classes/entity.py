@@ -8,7 +8,7 @@ class Stats:
         self.accuracy = accuracy
     
     def health(self) -> int:
-        return (self.stamina * 8) + (self.strength * 2)
+        return (self.stamina * 8) + (self.strength * 2) # default 46hp
     
     def damage(self) -> int:
         return self.power
@@ -22,8 +22,17 @@ class Stats:
             evasion = clear_evasion
         return evasion
 
+    def add_stat(self, stamina: int=0, power: int=0, agility: int=0, strength: int=0, intelligence: int=0, accuracy: int=0):
+        self.stamina += stamina
+        self.power += power
+        self.agility += agility
+        self.strength += strength
+        self.intelligence += intelligence
+        self.accuracy += accuracy
+
 class Level:
-    def __init__(self, level: int=1, experience: int = 0):
+    def __init__(self, tracking_stats: Stats, level: int=1, experience: int = 0):
+        self.tracking_stats = tracking_stats
         self.level = level
         self.experience = experience
         self.max_experience = self.level * 10
@@ -37,8 +46,9 @@ class Level:
     def lvl_up(self):
         # remnant = self.max_experience - self.experience
         self.level += 1
-        self.experience = self.experience - self.max_experience
+        self.experience = (self.experience - self.max_experience) if self.experience >= self.max_experience else 0 # to absorb error with extra lvl_up
         self.max_experience = self.level * 10
+        self.tracking_stats.add_stat(stamina=1, power=1)
 
         # TODO: message to user about level up
 
@@ -55,10 +65,10 @@ class AtackResult:
         self.alive = alive
 
 class Entity:
-    def __init__(self, name: str):
+    def __init__(self, name: str, level: int=1):
         self.name = name
-        self.level = Level()
         self.stats = Stats()
+        self.level = Level(self.stats)
         self.health = self.max_health()
         self.armor = 0
 
