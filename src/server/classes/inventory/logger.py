@@ -1,4 +1,4 @@
-from config import setup_logger
+from server.config import setup_logger
 
 
 logger = setup_logger("inventory.logger")

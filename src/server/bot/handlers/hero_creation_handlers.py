@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from server.bot.handlers.catch import Catch
 from server.classes.player import Player
 from server.classes.user_class import User
-from config import setup_logger
+from server.config import setup_logger
 
 
 router = Router(name="hero_creation.handler")

@@ -6,8 +6,9 @@ from aiogram import Bot, Dispatcher
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from tortoise import Tortoise
 
-ROOT_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).parent.parent
 
 def setup_logger(name: str) -> logging.Logger:
         # Создаем логгер
@@ -36,14 +37,14 @@ def setup_logger(name: str) -> logging.Logger:
 
     return logger
 
-
 logger = setup_logger("config")
 
 class Config(BaseSettings):
     BOT_TOKEN: SecretStr
+    DB_URL: SecretStr
 
     model_config = SettingsConfigDict(
-        env_file=ROOT_DIR / ".env",
+        env_file=ROOT_DIR / "server" / ".env",
         env_file_encoding="utf-8"
     )
 
@@ -59,13 +60,25 @@ except Exception as ex:
     logger.info("Stopping app")
     sys.exit(1)
 
+async def lifespan():
+    await Tortoise.init(TORTOISE_ORM)
+    logger.info("Tortoise connection successed")
+    yield
+    logger.info("Start clossing sessions...")
+    await Tortoise.close_connections()
+    logger.info("Tortoise session closed")
+    await bot.session.close()
+    logger.info("Bot session closed")
+
+
 
 TORTOISE_ORM = {
-    "connections": {"default": None},
+    "connections": {"default": config.DB_URL.get_secret_value()},
     "apps": {
         "models": {
             "models": [
-                "db.models.users"
+                "db.models.user",
+                "aerich.models"
             ],
             "default_connection": "default"
         }
