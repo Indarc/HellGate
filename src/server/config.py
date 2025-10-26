@@ -69,24 +69,30 @@ except Exception as ex:
     logger.info("Stopping app")
     sys.exit(1)
 
-async def lifespan():
-    await Tortoise.init(TORTOISE_ORM)
-    logger.info("Tortoise connection successed")
-    yield
-    logger.info("Start clossing sessions...")
+async def init_db():
+    try:
+        await Tortoise.init(config=TORTOISE_ORM)
+        logger.info("✅ Tortoise connection successed")
+
+        # Проверка, что модели загружены
+        logger.info(f"✅ Models: {list(Tortoise.apps.get("models").keys())}")
+        
+    except Exception as e:
+        logger.error(f"❌ Error: {e}")
+        return e
+
+async def shutdown():
     await Tortoise.close_connections()
-    logger.info("Tortoise session closed")
+    logger.info("Connections closed")
     await bot.session.close()
-    logger.info("Bot session closed")
-
-
+    logger.info("Bot connection closed")
 
 TORTOISE_ORM = {
     "connections": {"default": DB_URL},
     "apps": {
         "models": {
             "models": [
-                "db.models.user",
+                "server.db.models.user",
                 "aerich.models"
             ],
             "default_connection": "default"

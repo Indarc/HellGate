@@ -1,0 +1,9 @@
+{
+    "name": "DnD DevContainer",
+    "dockerComposeFile": "/src/server/docker-compose.yml",
+    "service": "dnd_service", // Укажите ваш сервис приложения
+    "workspaceFolder": "/src",
+    "forwardPorts": [
+        5432
+    ] // Автоматически пробросит порт БД
+}

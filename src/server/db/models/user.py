@@ -11,7 +11,7 @@ class User(Model):
     user_entity = fields.JSONField(encoder=lambda x: json.dumps(x, ensure_ascii=False), decoder=lambda x: json.loads(x))
 
     class Meta:
-        table = "users"
+        table = "user"
 
 
 UserShema = pydantic_model_creator(User)

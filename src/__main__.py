@@ -1,6 +1,7 @@
 import asyncio
+import sys
 
-from server.config import bot, dp, setup_logger, lifespan
+from server.config import bot, dp, setup_logger, init_db, shutdown
 from server.bot.handlers import setup_routers
 
 
@@ -10,10 +11,15 @@ logger = setup_logger("main")
 
 
 async def main():
-    await lifespan()
+    conn = await init_db()
+    if isinstance(conn, Exception):
+        sys.exit(1)
     await dp.start_polling(bot)
 
-
 if __name__ == "__main__":
-    asyncio.run(main())
-    logger.info("Shut down")
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        ...
+    logger.info("Start shut down")
+    asyncio.run(shutdown())
