@@ -11,3 +11,6 @@ __pycache__/
 
 # Ignore log file
 /src/logs.log
+
+# Ignore server environtment file
+# /src/server/.env
