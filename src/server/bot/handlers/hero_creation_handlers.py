@@ -3,9 +3,10 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from server.bot.handlers.catch import Catch
-from server.classes.player import Player
-from server.classes.user_class import User
+from server.classes.game.player import Player
+from server.classes.game.user_class import User
 from server.config import setup_logger
+from server.config import user_db
 
 
 router = Router(name="hero_creation.handler")
@@ -31,3 +32,5 @@ async def nickname_catch(message: Message, state: FSMContext):
 
     hero = Player(user_input)
     user = User(message.chat.id, hero)
+
+    await user_db.add(user.id, user)

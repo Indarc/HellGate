@@ -29,6 +29,18 @@ class Stats:
         self.strength += strength
         self.intelligence += intelligence
         self.accuracy += accuracy
+        
+    def to_dict(self) -> dict:
+        return {
+            "_": "Stats",
+            "stamina": self.stamina,
+            "power": self.power,
+            "agility": self.agility,
+            "strength": self.strength,
+            "intelligence": self.intelligence,
+            "accuracy": self.accuracy
+        }
+
 
 class Level:
     def __init__(self, tracking_stats: Stats, level: int=1, experience: int = 0):
@@ -59,6 +71,15 @@ class Level:
         self.experience += exp
         if self.experience >= self.max_experience:
             self.lvl_up()
+    
+    def to_dict(self) -> dict:
+        return {
+            "_": "Level",
+            "tracking_stats": self.tracking_stats.to_dict(),
+            "level": self.level,
+            "experience": self.experience,
+            "max_experience": self.max_experience
+        }
 
 class AtackResult:
     def __init__(self, alive: bool=True):

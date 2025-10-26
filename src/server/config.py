@@ -8,6 +8,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from tortoise import Tortoise
 
+from server.classes.db.db import DB
+from db.models.user import User
+
+
 ROOT_DIR = Path(__file__).parent.parent
 
 def setup_logger(name: str) -> logging.Logger:
@@ -69,6 +73,10 @@ except Exception as ex:
     logger.info("Stopping app")
     sys.exit(1)
 
+# создание инструмента для работы с DB
+user_db_logger = setup_logger("user.db.logger")
+user_db = DB(tracking_database=User, logger=user_db_logger)
+
 async def init_db():
     try:
         await Tortoise.init(config=TORTOISE_ORM)
@@ -92,7 +100,7 @@ TORTOISE_ORM = {
     "apps": {
         "models": {
             "models": [
-                "server.db.models.user",
+                "db.models.user",
                 "aerich.models"
             ],
             "default_connection": "default"

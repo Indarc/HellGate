@@ -26,3 +26,14 @@ Exp: {exp[0]}/{exp[1]}
 🧠Интелект: {self.stats.intelligence}
 """
         return text
+
+    def to_dict(self) -> dict:
+        return {
+            "_": "Player",
+            "money": self.money,
+            "name": self.name,
+            "stats": self.stats.to_dict(),
+            "level": self.level.to_dict(), # TODO
+            "health": self.health,
+            "armor": self.armor
+        }
