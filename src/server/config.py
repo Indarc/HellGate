@@ -43,12 +43,21 @@ class Config(BaseSettings):
     BOT_TOKEN: SecretStr
     DB_URL: SecretStr
 
+    CONN: SecretStr
+    POSTGRES_USER: SecretStr
+    POSTGRES_PASSWORD: SecretStr
+    POSTGRES_HOST: SecretStr
+    POSTGRES_PORT: SecretStr
+    POSTGRES_DB: SecretStr
+
     model_config = SettingsConfigDict(
         env_file=ROOT_DIR / "server" / ".env",
         env_file_encoding="utf-8"
     )
 
 config = Config()
+
+DB_URL = f"{config.CONN.get_secret_value()}://{config.POSTGRES_USER.get_secret_value()}:{config.POSTGRES_PASSWORD.get_secret_value()}@{config.POSTGRES_HOST.get_secret_value()}:{config.POSTGRES_PORT.get_secret_value()}/{config.POSTGRES_DB.get_secret_value()}"
 
 logger.info("Start connecting bot")
 try:
@@ -73,7 +82,7 @@ async def lifespan():
 
 
 TORTOISE_ORM = {
-    "connections": {"default": config.DB_URL.get_secret_value()},
+    "connections": {"default": DB_URL},
     "apps": {
         "models": {
             "models": [
