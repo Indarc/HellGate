@@ -13,9 +13,14 @@ from db.models.user import User
 
 
 ROOT_DIR = Path(__file__).parent.parent
+RESOURCES_DIR = Path(__file__).parent.parent / "resources"
+
+messages = {
+    "hello_message": open(RESOURCES_DIR / "hello_message.txt").read()
+}
 
 def setup_logger(name: str) -> logging.Logger:
-        # Создаем логгер
+    # Создаем логгер
     logger = logging.getLogger(name=name)
     logger.setLevel(logging.DEBUG)  # Устанавливаем минимальный уровень логирования
 

@@ -2,8 +2,8 @@ from .entity import Entity
 
 
 class Player(Entity):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, data=None):
+        super().__init__(name, data=None)
         self.money = 0
 
     def banner(self) -> str: # TODO: to player banner

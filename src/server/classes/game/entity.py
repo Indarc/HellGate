@@ -86,12 +86,15 @@ class AtackResult:
         self.alive = alive
 
 class Entity:
-    def __init__(self, name: str, level: int=1):
-        self.name = name
-        self.stats = Stats()
-        self.level = Level(self.stats)
-        self.health = self.max_health()
-        self.armor = 0
+    def __init__(self, name: str, level: int=1, data=None):
+        if data:
+            ...
+        else:
+            self.name = name
+            self.stats = Stats()
+            self.level = Level(self.stats)
+            self.health = self.max_health()
+            self.armor = 0
 
     def damage(self) -> int:
         return self.stats.damage()

@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from server.resources.static_messages import *
+from config import messages
 
 
 def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:
@@ -9,4 +9,4 @@ def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:
             [InlineKeyboardButton(text="Создать персонажа", callback_data="create.hero")]
         ]
     )
-    return (markup, welcome_message)
+    return (markup, messages.get("hello_message"))
