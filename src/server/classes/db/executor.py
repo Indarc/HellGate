@@ -1,6 +1,8 @@
+from logging import Logger
+
 from db.models.user import User, UserShema
 from server.classes.game.user_class import User as app_user
-from logging import Logger
+
 
 class DB:
     def __init__(self, tracking_database: User, logger: Logger):
@@ -23,4 +25,10 @@ class DB:
     
     async def edit(self, user_id):
         ...
+    
+    async def clear_database(self) -> bool:
+        all_users = await self.tracking_database.all()
+        for user in all_users:
+            await user.delete()
+        return True
     

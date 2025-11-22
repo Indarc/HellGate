@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from tortoise import Tortoise
 
-from server.classes.db.db import DB
+from server.classes.db.executor import DB
 from db.models.user import User
 
 
@@ -53,6 +53,8 @@ class Config(BaseSettings):
     POSTGRES_HOST: SecretStr
     POSTGRES_PORT: SecretStr
     POSTGRES_DB: SecretStr
+
+    DB_CLEAR_PASSWORD: SecretStr
 
     model_config = SettingsConfigDict(
         env_file=ROOT_DIR / "server" / ".env",
@@ -101,6 +103,7 @@ TORTOISE_ORM = {
         "models": {
             "models": [
                 "db.models.user",
+                "db.models.test_user",
                 "aerich.models"
             ],
             "default_connection": "default"

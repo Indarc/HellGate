@@ -1,7 +1,7 @@
 import pytest
 
-from server.classes.player import Player
-from server.classes.entity import Entity
+from server.classes.game.player import Player
+from server.classes.game.entity import Entity
 
 
 class TestPlayer:

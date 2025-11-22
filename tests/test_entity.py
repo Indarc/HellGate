@@ -1,6 +1,6 @@
 import pytest
 
-from server.classes.entity import Entity
+from server.classes.game.entity import Entity
 
 
 class TestEntity:

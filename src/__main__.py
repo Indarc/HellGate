@@ -15,6 +15,7 @@ async def main():
     if isinstance(conn, Exception):
         sys.exit(1)
     await dp.start_polling(bot)
+    await shutdown()
 
 if __name__ == "__main__":
     try:

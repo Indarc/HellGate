@@ -33,4 +33,5 @@ async def nickname_catch(message: Message, state: FSMContext):
     hero = Player(user_input)
     user = User(message.chat.id, hero)
 
+    # add new user to database
     await user_db.add(user.id, user)

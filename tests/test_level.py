@@ -1,6 +1,6 @@
 import pytest
 
-from server.classes.entity import Level, Stats
+from server.classes.game.entity import Level, Stats
 
 
 class TestLevel:
