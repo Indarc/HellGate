@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-# Установка зависимостей, включая Firefox
+# Установка зависимостей
 RUN apt-get update && \
     apt-get install -y libpq-dev gcc postgresql-client wget gnupg && \
     apt-get clean
@@ -18,4 +18,4 @@ RUN chmod +x /wait-for-db.sh
 # Копируем остальные файлы
 COPY . .
 
-CMD ["sh", "-c", "/wait-for-db.sh postgres 5432 && aerich upgrade && python ."]
+CMD ["sh", "-c", "aerich upgrade && python ."]
