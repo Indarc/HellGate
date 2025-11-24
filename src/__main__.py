@@ -1,14 +1,11 @@
 import asyncio
 import sys
 
-from server.config import bot, dp, setup_logger, init_db, shutdown
+from server.config import bot, dp, setup_logger, init_db, shutdown, Loggers
 from server.bot.handlers import setup_routers
 
 
 dp.include_router(setup_routers())
-
-logger = setup_logger("main")
-
 
 async def main():
     conn = await init_db()
@@ -22,5 +19,5 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         pass
-    logger.info("Start shut down")
+    Loggers.main.info("Start shut down")
     asyncio.run(shutdown())

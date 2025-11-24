@@ -1,11 +1,26 @@
+from server.config import Loggers
+
+
 class Stats:
-    def __init__(self, stamina: int=5, power: int=5, agility: int=3, strength: int=3, intelligence: int=3, accuracy: int=1):
-        self.stamina = stamina
-        self.power = power
-        self.agility = agility
-        self.strength = strength
-        self.intelligence = intelligence
-        self.accuracy = accuracy
+    def __init__(self, stamina: int=5, power: int=5, agility: int=3, strength: int=3, intelligence: int=3, accuracy: int=1, data: dict=None):
+        if data:
+            t = data.get("_")
+            if t != "Stats":
+                Loggers.game_classes.error(f"[STATS_INIT] Not supported dict to initialization Stats object: {t}")
+                return
+            self.stamina = data.get("stamina")
+            self.power = data.get("power")
+            self.agility = data.get("agility")
+            self.strength = data.get("strength")
+            self.intelligence = data.get("intelligence")
+            self.accuracy = data.get("accuracy")
+        else:
+            self.stamina = stamina
+            self.power = power
+            self.agility = agility
+            self.strength = strength
+            self.intelligence = intelligence
+            self.accuracy = accuracy
     
     def health(self) -> int:
         return (self.stamina * 8) + (self.strength * 2) # default 46hp
@@ -43,12 +58,23 @@ class Stats:
 
 
 class Level:
-    def __init__(self, tracking_stats: Stats, level: int=1, experience: int = 0):
-        self.tracking_stats = tracking_stats
-        self.level = level
-        self.experience = experience
-        self.max_experience = self.level * 10
-    
+    def __init__(self, tracking_stats: Stats, level: int=1, experience: int = 0, data: dict=None):
+        if data:
+            t = data.get("_")
+            if t != "Level":
+                Loggers.game_classes.error(f"[LEVEL_INIT] Not supported dict to initialization Level object: {t}")
+                return
+            
+            self.tracking_stats = tracking_stats
+            self.level = data.get("level")
+            self.experience = data.get("experience")
+            self.max_experience = data.get("max_experience")
+        else:
+            self.tracking_stats = tracking_stats
+            self.level = level
+            self.experience = experience
+            self.max_experience = self.level * 10
+        
     def get_level(self) -> int:
         return self.level
     
@@ -86,10 +112,22 @@ class AtackResult:
         self.alive = alive
 
 class Entity:
-    def __init__(self, name: str, level: int=1, data=None):
+    def __init__(self, name: str=None, level: int=1, data: dict=None):
         if data:
-            ...
+            t = data.get("_")
+            if t != "Player":
+                Loggers.game_classes.error(f"[ENTITY_INIT] Not supported dict to initialization Entity object: {t}")
+                return
+            self.name = data.get("name")
+            self.stats = Stats(data=data.get("stats"))
+            self.level = Level(data=data.get("level"), tracking_stats=self.stats)
+            self.health = data.get("health")
+            self.armor = data.get("armor")
         else:
+            if not name or not level:
+                Loggers.game_classes.error("[ENTITY_INIT] Entity object requered paramateres to initializating")
+                return
+            
             self.name = name
             self.stats = Stats()
             self.level = Level(self.stats)

@@ -14,8 +14,11 @@ class DB:
         await user.save()
         self.logger.info(f"Created new user with id {user_entity.id}")
     
-    async def get(self, user_id: int):
+    async def get(self, user_id: int) -> app_user:
         user = await self.tracking_database.filter(id=user_id).first()
+
+        user = User(data=user, id=user_id)
+
         return user
     
     async def remove(self, user_id):

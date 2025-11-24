@@ -46,7 +46,14 @@ def setup_logger(name: str) -> logging.Logger:
 
     return logger
 
-logger = setup_logger("config")
+
+class Loggers:
+    config = setup_logger("config")
+    main = setup_logger("main")
+    game_handlers = setup_logger("handlers.game.Loggers.config")
+    game_classes = setup_logger("game.classes.Loggers.config")
+    user_db_logger = setup_logger("user.db.Loggers.config")
+
 
 class Config(BaseSettings):
     BOT_TOKEN: SecretStr
@@ -66,41 +73,41 @@ class Config(BaseSettings):
         env_file_encoding="utf-8"
     )
 
+
 config = Config()
 
 DB_URL = f"{config.CONN.get_secret_value()}://{config.POSTGRES_USER.get_secret_value()}:{config.POSTGRES_PASSWORD.get_secret_value()}@{config.POSTGRES_HOST.get_secret_value()}:{config.POSTGRES_PORT.get_secret_value()}/{config.POSTGRES_DB.get_secret_value()}"
 
-logger.info("Start connecting bot")
+Loggers.config.info("Start connecting bot")
 try:
     bot = Bot(config.BOT_TOKEN.get_secret_value())
     dp = Dispatcher()
-    logger.info("Bot connection successed")
+    Loggers.config.info("Bot connection successed")
 except Exception as ex:
-    logger.error(f"Bot connection refused. Error: {ex}")
-    logger.info("Stopping app")
+    Loggers.config.error(f"Bot connection refused. Error: {ex}")
+    Loggers.config.info("Stopping app")
     sys.exit(1)
 
 # создание инструмента для работы с DB
-user_db_logger = setup_logger("user.db.logger")
-user_db = DB(tracking_database=User, logger=user_db_logger)
+user_db = DB(tracking_database=User, logger=Loggers.user_db_logger)
 
 async def init_db():
     try:
         await Tortoise.init(config=TORTOISE_ORM)
-        logger.info("✅ Tortoise connection successed")
+        Loggers.config.info("✅ Tortoise connection successed")
 
         # Проверка, что модели загружены
-        logger.info(f"✅ Models: {list(Tortoise.apps.get("models").keys())}")
+        Loggers.config.info(f"✅ Models: {list(Tortoise.apps.get("models").keys())}")
         
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        Loggers.config.error(f"❌ Error: {e}")
         return e
 
 async def shutdown():
     await Tortoise.close_connections()
-    logger.info("Connections closed")
+    Loggers.config.info("Connections closed")
     await bot.session.close()
-    logger.info("Bot connection closed")
+    Loggers.config.info("Bot connection closed")
 
 TORTOISE_ORM = {
     "connections": {"default": DB_URL},

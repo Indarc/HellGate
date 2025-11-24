@@ -2,9 +2,13 @@ from .entity import Entity
 
 
 class Player(Entity):
-    def __init__(self, name, data=None):
-        super().__init__(name, data=None)
-        self.money = 0
+    def __init__(self, name, data: dict=None):
+        if data:
+            super().__init__(name, data=data)
+            self.money = data.get("money")
+        else:
+            super().__init__(name)
+            self.money = 0
 
     def banner(self) -> str: # TODO: to player banner
         exp = self.level.get_experience()
