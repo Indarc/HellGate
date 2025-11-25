@@ -1,6 +1,6 @@
 # Base inventory errors
-class DontEnoughSpaceError:
-    def __init__(self, message: str="Don`t enough space in inventory"):
+class DontEnoughSlotsError:
+    def __init__(self, message: str="У вас кончились слоты в инвентаре"):
         self.message = message
 
 class ItemRemoveError:

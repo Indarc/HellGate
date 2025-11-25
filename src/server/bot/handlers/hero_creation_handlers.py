@@ -1,17 +1,19 @@
 from aiogram import F, Router
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from server.bot.handlers.catch import Catch
-from server.classes.game.player import Player
-from server.classes.game.user_class import User
-from server.config import setup_logger
 from server.config import user_db
-from server.bot.handlers.command_handlers import start_command
+from server.bot.keyboards.builders import accept_nickname, start_game
+from server.bot.handlers.catch import Catch
+from server.loggers import Loggers
+
+from game.classes.entity import Player
+from game.classes.entity import User
 
 
 router = Router(name="hero_creation.handler")
-logger = setup_logger("hero_creation.logger")
+
+nicknames = {}
 
 def clear_string(text: str) -> str:
     text = text.strip().replace("\\", "").replace("/", "").replace(" ", "")
@@ -20,7 +22,7 @@ def clear_string(text: str) -> str:
 @router.message(Catch.nickname, F.text)
 async def nickname_catch(message: Message, state: FSMContext):
     if not message.text or not state:
-        logger.warning(f"Нет объекта Message или state\n Message: {message}\n State: {state}")
+        Loggers.hero_creation_logger.warning(f"Нет объекта Message или state\n Message: {message}\n State: {state}")
         return
 
     # update state data with user message to get dict with message
@@ -30,11 +32,28 @@ async def nickname_catch(message: Message, state: FSMContext):
     
     user_input = data.get("message")
     user_input = clear_string(user_input)
+    nicknames.setdefault(message.chat.id, user_input)
 
-    hero = Player(user_input)
-    user = User(message.chat.id, hero)
+    markup, text = accept_nickname()
+    await message.answer(f"Ваш никнейм: {user_input}\n" + text, reply_markup=markup)
+
+
+@router.callback_query(F.data == "save_nickname")
+async def save_nickname(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+    
+    hero = Player(nicknames.pop(callback.message.chat.id))
+    user = User(callback.message.chat.id, hero)
 
     # add new user to database
     await user_db.add(user.id, user)
 
-    await start_command(message)
+    markup, text = start_game()
+    await callback.message.edit_text(text=text, reply_markup=markup)
+
+
+@router.callback_query(F.data == "change_nickname")
+async def save_nickname(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(Catch.nickname)
+    text = "Введите имя своего персонажа (вводите имя слитно по русский или английски):"
+    await callback.message.edit_text(text=text)

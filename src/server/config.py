@@ -1,6 +1,7 @@
-import logging
+import os
 from pathlib import Path
 import sys
+import json
 
 from aiogram import Bot, Dispatcher
 from pydantic import SecretStr
@@ -8,52 +9,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from tortoise import Tortoise
 
-from server.classes.db.executor import DB
+from db.executor import DB
 from db.models.user import User
+from server.loggers import Loggers
+from paths import ROOT_DIR, RESOURCES_DIR
 
-
-ROOT_DIR = Path(__file__).parent.parent
-RESOURCES_DIR = Path(__file__).parent.parent / "resources"
 
 messages = {
-    "hello_message": open(RESOURCES_DIR / "hello_message.txt").read()
+    "hello_message": open(RESOURCES_DIR / "txt" / "hello_message.txt", encoding="utf-8").read()
 }
-
-def setup_logger(name: str) -> logging.Logger:
-    # Создаем логгер
-    logger = logging.getLogger(name=name)
-    logger.setLevel(logging.DEBUG)  # Устанавливаем минимальный уровень логирования
-
-    # Создаем форматтер
-    formatter = logging.Formatter(
-        fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
-
-    # 1. Обработчик для записи в файл (сохраняет все сообщения от DEBUG и выше)
-    file_handler = logging.FileHandler(f"{ROOT_DIR}/logs.log", encoding='utf-8')
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
-    # 2. Обработчик для вывода в консоль (выводит только INFO и выше)
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(formatter)
-
-    # Добавляем обработчики к логгеру
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
-
-    return logger
-
-
-class Loggers:
-    config = setup_logger("config")
-    main = setup_logger("main")
-    game_handlers = setup_logger("handlers.game.Loggers.config")
-    game_classes = setup_logger("game.classes.Loggers.config")
-    user_db_logger = setup_logger("user.db.Loggers.config")
-
 
 class Config(BaseSettings):
     BOT_TOKEN: SecretStr
@@ -94,10 +58,10 @@ user_db = DB(tracking_database=User, logger=Loggers.user_db_logger)
 async def init_db():
     try:
         await Tortoise.init(config=TORTOISE_ORM)
-        Loggers.config.info("✅ Tortoise connection successed")
+        Loggers.config.info("✔️ Tortoise connection successed")
 
         # Проверка, что модели загружены
-        Loggers.config.info(f"✅ Models: {list(Tortoise.apps.get("models").keys())}")
+        Loggers.config.info(f"✔️ Models: {list(Tortoise.apps.get("models").keys())}")
         
     except Exception as e:
         Loggers.config.error(f"❌ Error: {e}")

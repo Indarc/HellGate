@@ -1,0 +1,13 @@
+{
+    "_" : "weapon",
+    "id": 0,
+    "name": "Деревянный меч",
+    "cost": 0.0,
+    "description": "Уже потресканный от тренеровок меч",
+    "stacked": false,
+    "damage": 2,
+    "accuracy": 5,
+    "slot": 0,
+    "upgrade": 0,
+    "emoji": null
+}

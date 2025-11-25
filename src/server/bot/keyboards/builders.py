@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from config import messages
+from server.config import messages
 
 
 def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:
@@ -10,3 +10,22 @@ def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:
         ]
     )
     return (markup, messages.get("hello_message"))
+
+def accept_nickname() -> tuple[InlineKeyboardMarkup, str]:
+    markup = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="✅ Подтвердить", callback_data="save_nickname"),
+             InlineKeyboardButton(text="✏️ Изменить", callback_data="change_nickname")]
+        ]
+    )
+    text = "Сохранить никнейм?"
+    return (markup, text)
+
+def start_game() -> tuple[InlineKeyboardMarkup, str]:
+    markup = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Да", callback_data="quest.start.0")]
+        ]
+    )
+    text = "Начать первый квест?"
+    return (markup, text)

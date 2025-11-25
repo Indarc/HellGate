@@ -1,6 +1,6 @@
-from server.classes.game.player import Player
+from .player import Player
 
-from server.config import Loggers
+from server.loggers import Loggers
 
 
 class User:
@@ -26,16 +26,14 @@ class User:
 
         else:
             if not id or not player:
-                Loggers.game_classes.error("User class requered parameters with initialization")
+                Loggers.game_classes.error("User class requered parameters to initialize")
                 return
             self.id = id
             self.player = player
-            # self.status = status
     
     def to_dict(self) -> dict:
         return {
             "_": "User",
             "id": self.id,
             "player": self.player.to_dict()
-            # "status": self.status
         }

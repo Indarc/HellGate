@@ -1,0 +1,16 @@
+{
+    "id": 0,
+    "name": "Незаурядный старт",
+    "messages": [
+        ["Вы очнулись в тёмном лесу.", [
+            ["Подняться", "quests.first_quest.standup"],
+            ["Лежать", "quests.first_quest.land"]
+            ]
+        ]
+    ],
+    "rewards": [
+        [0, 1]
+    ],
+    "condition": "quests.first_quest.standup",
+    "complite": false
+}

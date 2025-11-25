@@ -1,7 +1,8 @@
 import asyncio
 import sys
 
-from server.config import bot, dp, setup_logger, init_db, shutdown, Loggers
+from server.config import bot, dp, init_db, shutdown
+from server.loggers import Loggers
 from server.bot.handlers import setup_routers
 
 
