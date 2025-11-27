@@ -1,4 +1,4 @@
-from .quest_runner import QuestRunner
+from .quester import QuestRunner
 
 
 __all__ = ["QuestRunner"]
