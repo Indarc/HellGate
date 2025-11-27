@@ -6,8 +6,8 @@ from game.classes.items import *
 class Outfit:
     def __init__(self, data: dict=None):
         if data:
-            self.main_weapon: Weapon = Weapon(data.get("main_weapon")) if data.get("main_weapon") else None
-            self.offhand_weapon: Weapon = None
+            self.main_weapon: Weapon = Weapon(data.get("main_weapon"))
+            self.offhand_weapon: Weapon = Weapon(data.get("offhand_weapon"))
             self.helmet: dict = None
             self.armor: dict = None
             self.boots: dict = None
