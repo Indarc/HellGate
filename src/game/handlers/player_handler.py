@@ -1,7 +1,7 @@
 from aiogram.types import Message, CallbackQuery
 
 from server.loggers import Loggers
-from server.config import user_manager
+from game import user_manager
 from game.classes.entity import Player
 from game.classes.entity import User
 
