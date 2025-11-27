@@ -9,7 +9,7 @@ from game.classes.entity import User
 from game.classes.entity import Player
 from game.handlers.state import State
 
-from server.config import user_manager
+from game import user_manager
 from server.loggers import Loggers
 
 from game.classes.quests.errors import QuestAlreadyComplite
