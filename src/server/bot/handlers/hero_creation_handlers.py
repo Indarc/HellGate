@@ -55,5 +55,5 @@ async def save_nickname(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(F.data == "change_nickname")
 async def save_nickname(callback: CallbackQuery, state: FSMContext):
     await state.set_state(Catch.nickname)
-    text = "Введите имя своего персонажа (вводите имя слитно по русский или английски):"
+    text = "Введите имя своего персонажа (вводите имя слитно по русски или английски):"
     await callback.message.edit_text(text=text)
