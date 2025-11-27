@@ -237,7 +237,7 @@ class Entity:
 
 ⚔️Урон: {self.damage()}
 🛡️Броня: {self.armor}
-👟Уклонение: {self.evasion()}
-🎯Точность: {self.stats.accuracy}
+👟Уклонение: {self.evasion()}%
+🎯Точность: {self.stats.accuracy}%
 """
         return text
