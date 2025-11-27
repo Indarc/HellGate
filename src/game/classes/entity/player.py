@@ -9,7 +9,7 @@ class Player(Entity):
             self.money = data.get("money")
             self.inventory = Inventory(data=data.get("inventory"))
             self.quests = [Quest(data=x) for x in data.get("quests")]
-            pass
+            self.active_quest: Quest | None = self.quests[data.get("active_quest")] if data.get("active_quest") is not None else None
         else:
             if not name:
                 return
@@ -17,7 +17,7 @@ class Player(Entity):
             self.money = 0
             self.inventory = Inventory()
             self.quests = [Quest(index=x) for x in Quest.all_quests.keys()]
-            pass
+            self.active_quest: Quest | None = None
 
     def banner(self) -> str: # TODO: to player banner
         exp = self.level.get_experience()
@@ -52,6 +52,7 @@ class Player(Entity):
             "health": self.health,
             "armor": self.armor,
             "inventory": self.inventory.to_dict(),
-            "quests": [x.to_dict() for x in self.quests]
+            "quests": [x.to_dict() for x in self.quests],
+            "active_quest": self.active_quest.to_dict() if self.active_quest is not None else None
         }
         return dict_return

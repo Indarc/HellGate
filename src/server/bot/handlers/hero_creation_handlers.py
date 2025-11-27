@@ -2,8 +2,8 @@ from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from server.config import user_db
-from server.bot.keyboards.builders import accept_nickname, start_game
+from server.config import user_db, user_manager
+from server.bot.keyboards.builders import accept_nickname, start_quest
 from server.bot.handlers.catch import Catch
 from server.loggers import Loggers
 
@@ -46,9 +46,9 @@ async def save_nickname(callback: CallbackQuery, state: FSMContext):
     user = User(callback.message.chat.id, hero)
 
     # add new user to database
-    await user_db.add(user.id, user)
+    await user_manager.save_user(user)
 
-    markup, text = start_game()
+    markup, text = start_quest(0, user)
     await callback.message.edit_text(text=text, reply_markup=markup)
 
 

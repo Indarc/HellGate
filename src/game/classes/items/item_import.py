@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 from paths import RESOURCES_DIR
-
+from server.loggers import Loggers
 
 ITEMS_PATH = RESOURCES_DIR / "items"
 
@@ -18,6 +18,7 @@ try:
         "another": [ITEMS_PATH / "another" / p for p in os.listdir(ITEMS_PATH / "another") if p.endswith(".json")]
     }
 except Exception as e:
+    Loggers.config.error(f"Error with import items: {e}")
     sys.exit(1)
 
 for group_type, item_paths in items_paths.items():

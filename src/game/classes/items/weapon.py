@@ -24,11 +24,12 @@ class Weapon(Item):
     
     def to_dict(self) -> dict:
         item_dict = super().to_dict()
-        item_dict.update("_", "weapon")
+        item_dict.update(_="weapon")
         weapon_dict = {
             "damage": self.damage,
             "accuracy": self.accuracy,
             "slot": self.slot,
             "upgrade": self.upgrade
         }
-        return item_dict + weapon_dict
+        item_dict.update(weapon_dict)
+        return item_dict

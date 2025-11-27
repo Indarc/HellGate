@@ -14,11 +14,13 @@ class Quest:
     all_quests = get_clear_quests()
     def __init__(self, index: int=None, data: dict=None):
         if data:
+            self.index = index
             self.name = data.get("name")
-            self.messages = data.get("messages")
+            self.messages: dict = data.get("messages")
             self.rewards = data.get("rewards")
-            self.condition = data.get("condition")
+            self.conditions = data.get("conditions")
             self.complite = data.get("complite")
+            self.callback = data.get("callback")
         else:
             if index == None:
                 Loggers.quest_logger.error("[QUEST_INIT] index parameter can`t be None")
@@ -30,17 +32,16 @@ class Quest:
             
             if self.quest_dict.get("state"):
                 return QuestAlreadyComplite()
+            self.index = index
             self.name = self.quest_dict.get("name")
-            self.messages = self.quest_dict.get("messages")
+            self.messages: dict = self.quest_dict.get("messages")
             self.rewards = self.quest_dict.get("rewards")
-            self.condition = self.quest_dict.get("condition")
+            self.conditions = self.quest_dict.get("conditions")
             self.complite = self.quest_dict.get("complite")
+            self.callback = self.quest_dict.get("callback")
     
-    def check_condition(self) -> bool:
-        if self.condition:
-            return True
-        else:
-            return False
+    def get_conditions(self) -> list[str]:
+        return self.conditions
     
     def get_reward(self, player) -> bool | DontEnoughSlotsError:
         for reward in self.rewards:
@@ -62,6 +63,7 @@ class Quest:
             "name": self.name,
             "messages": self.messages,
             "rewards": self.rewards,
-            "condition": self.condition,
-            "complite": self.complite
+            "conditions": self.conditions,
+            "complite": self.complite,
+            "callback": self.callback
         }

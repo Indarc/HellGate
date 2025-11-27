@@ -1,5 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from game.classes.entity.user_class import User
 from server.config import messages
 
 
@@ -21,11 +22,14 @@ def accept_nickname() -> tuple[InlineKeyboardMarkup, str]:
     text = "Сохранить никнейм?"
     return (markup, text)
 
-def start_game() -> tuple[InlineKeyboardMarkup, str]:
+def start_quest(quest_index: int, user: User) -> tuple[InlineKeyboardMarkup, str]:
+    quest = user.player.quests[quest_index]
+    text = f"Начать квест:\n{quest.name}"
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Да", callback_data="quest.start.0")]
+            [InlineKeyboardButton(text="Да", callback_data="quest.start"),
+             InlineKeyboardButton(text="Отменить", callback_data="quest.abandon")]
         ]
     )
-    text = "Начать первый квест?"
+    user.player.active_quest = user.player.quests[quest_index] # TODO попробовать переместить в инициализаю QuestRunner
     return (markup, text)

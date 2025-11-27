@@ -1,7 +1,7 @@
-import os
+import asyncio
 from pathlib import Path
 import sys
-import json
+from time import sleep
 
 from aiogram import Bot, Dispatcher
 from pydantic import SecretStr
@@ -13,6 +13,8 @@ from db.executor import DB
 from db.models.user import User
 from server.loggers import Loggers
 from paths import ROOT_DIR, RESOURCES_DIR
+
+from game.user_manager import UserManager
 
 
 messages = {
@@ -54,6 +56,7 @@ except Exception as ex:
 
 # создание инструмента для работы с DB
 user_db = DB(tracking_database=User, logger=Loggers.user_db_logger)
+user_manager = UserManager(user_db_executor=user_db)
 
 async def init_db():
     try:
@@ -68,10 +71,19 @@ async def init_db():
         return e
 
 async def shutdown():
-    await Tortoise.close_connections()
-    Loggers.config.info("Connections closed")
-    await bot.session.close()
-    Loggers.config.info("Bot connection closed")
+    try:
+        await asyncio.sleep(0.5)
+        await user_manager.save_data()
+        await asyncio.sleep(0.5)
+        await Tortoise.close_connections()
+        Loggers.config.info("Connections closed")
+        await asyncio.sleep(0.5)
+        await bot.session.close()
+        Loggers.config.info("Bot connection closed")
+    except Exception as e:
+        Loggers.config.error(f"Error during shutdown: {e}")
+    finally:
+        await asyncio.sleep(0.5)
 
 TORTOISE_ORM = {
     "connections": {"default": DB_URL},

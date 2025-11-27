@@ -120,23 +120,24 @@ class Inventory:
 
 class Slot:
     def __init__(self, item: Item=None, count: int=0, data: dict=None):
-        if data:
-            if data.get(item) is None:
-                self.item = None
-            item_type = data.get("_")
+        item: dict = data.get("item")
+        if item:
+            item_type = item.get("_")
             if item_type == "weapon":
-                self.item = Weapon(data=data)
+                self.item = Weapon(data=item)
             elif item_type == "armor":
                 self.item = None
             elif item_type == "jewelry":
                 self.item = None
             elif item_type == "another":
                 self.item = Item(data=data)
-            self.count = data.get("count")
+            else:
+                self.item = None
+            self.count = count
             pass
         else:
             self.item = item
-            self.count = count
+            self.count = data.get("count")
     
     def to_dict(self):
         return {

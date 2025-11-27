@@ -28,12 +28,17 @@ class DB:
             return user
     
     async def remove(self, user_id):
-        user = await self.get(user_id)
+        user: User = await self.get(user_id)
         await user.delete()
         self.logger.info(f"Deleted user with id {user_id} from user db")
     
-    async def update(self, user_id):
-        ...#TODO update with item add
+    async def update(self, user_object: app_user):
+        data = await self.tracking_database.filter(id=user_object.id).first()
+        if data:
+            data.user_entity = user_object.to_dict()
+            await data.save()
+        else:
+            await self.add(user_object.id, user_object)
     
     async def clear_database(self) -> bool:
         all_users = await self.tracking_database.all()

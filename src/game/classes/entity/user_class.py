@@ -20,7 +20,6 @@ class User:
             if not player_dict:
                 Loggers.game_classes.error("[USER_INIT] Player dict missing")
                 return
-            
             self.id = id
             self.player = Player(data=player_dict)
 

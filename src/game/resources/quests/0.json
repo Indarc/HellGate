@@ -1,16 +1,36 @@
 {
     "id": 0,
+    "callback": "quest.0",
     "name": "Незаурядный старт",
-    "messages": [
-        ["Вы очнулись в тёмном лесу.", [
-            ["Подняться", "quests.first_quest.standup"],
-            ["Лежать", "quests.first_quest.land"]
-            ]
-        ]
-    ],
+    "messages": {
+        "start": {
+            "message": "Вы очнулись в тёмном лесу.",
+            "actions": [
+                {"text": "Встать", "callback": "standup", "action": 0},
+                {"text": "Лежать", "callback": "land", "action": 1}
+            ],
+            "0": {
+                "message": "Вы увидели на земле деревянный меч, уже потрескавщийся от тренировок.",
+                "actions": [
+                    {"text": "Взять", "callback": "tacke_sword", "action": 0},
+                    {"text": "Не обращать внимания", "callback": "nottacke_sword", "action": 1}
+                ],
+                "0": {},
+                "1": {}
+            },
+            "1": {
+                "message": "Прошло еще 5 минут перед тем как вы проснулись снова",
+                "actions": [
+                    {"text": "Встать", "callback": "standup", "action": 0}
+                ],
+                "0": {},
+                "1": {}
+            }
+        }
+    },
     "rewards": [
         [0, 1]
     ],
-    "condition": "quests.first_quest.standup",
+    "conditions": ["tacke_sword"],
     "complite": false
 }

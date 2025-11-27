@@ -43,3 +43,4 @@ class Loggers:
     middlewares_logger = setup_logger("middlewares.logger")
     tests_logger = setup_logger("tests.logger")
     quest_logger = setup_logger("quest.logger")
+    user_manager_logger = setup_logger("game.user_manager.logger")
