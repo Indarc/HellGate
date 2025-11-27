@@ -1,14 +1,15 @@
 from aiogram import F, Router
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.fsm.context import FSMContext
 
-from server.config import user_db, user_manager
-from server.bot.keyboards.builders import accept_nickname, start_quest
+from server.config import user_manager
+from server.bot.keyboards.builders import accept_nickname
 from server.bot.handlers.catch import Catch
 from server.loggers import Loggers
 
 from game.classes.entity import Player
 from game.classes.entity import User
+from game.quests.guide_line import GuideLine
 
 
 router = Router(name="hero_creation.handler")
@@ -43,17 +44,21 @@ async def save_nickname(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     
     hero = Player(nicknames.pop(callback.message.chat.id))
-    user = User(callback.message.chat.id, hero)
+    user = User(callback.from_user.id, hero)
 
-    # add new user to database
     await user_manager.save_user(user)
 
-    markup, text = start_quest(0, user)
+    text = f"Теперь тебе надо пройти гайд лайн, который поможет разобраться в механиках игры (инвентарь, экипировка, бой и т.п.)"
+    markup = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Начать", callback_data="start.guide")]
+        ]
+    )
     await callback.message.edit_text(text=text, reply_markup=markup)
 
 
 @router.callback_query(F.data == "change_nickname")
-async def save_nickname(callback: CallbackQuery, state: FSMContext):
+async def change_nickname(callback: CallbackQuery, state: FSMContext):
     await state.set_state(Catch.nickname)
     text = "Введите имя своего персонажа (вводите имя слитно по русски или английски):"
     await callback.message.edit_text(text=text)

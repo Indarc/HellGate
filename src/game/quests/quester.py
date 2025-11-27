@@ -9,33 +9,45 @@ from game.classes.entity import User
 from game.classes.entity import Player
 from game.handlers.state import State
 
-from game import user_manager
+from server.config import user_manager
 from server.loggers import Loggers
 
 from game.classes.quests.errors import QuestAlreadyComplite
-from game.classes.items.item_import import items
+from game import items
 
 
 router = Router(name="quests.router")
 
-users_quests_runners = {
+users_quests_runners: dict[str, "QuestRunner"] = {
 
 }
 
-@router.callback_query(F.data == "quest.start")
+@router.callback_query(F.data.contains("quest.start"))
 async def start_quest_callback(callback: CallbackQuery, state: FSMContext):
+    data = callback.data
+    quest_index = int(data.split(".")[-1])
     user: User = await user_manager.load_user(callback.message.chat.id)
+    user.player.active_quest = user.player.quests[quest_index]
     if user.player.active_quest.complite:
         await callback.message.edit_text(text=f'Квест "{user.player.active_quest.name}" уже выполнен.')
         user.player.active_quest = None
         return
     await state.set_state(State.quest)
-    quest_runner = QuestRunner(callback.message, user)
-    users_quests_runners.setdefault(user.id, quest_runner)
-    await quest_runner.start()
+    users_quests_runners.setdefault(user.id, QuestRunner(callback.message, user))
+    await users_quests_runners[callback.message.chat.id].start()
 
-@router.callback_query(F.data == "quest.abandon")
+@router.callback_query(F.data.contains("quest.abandon"))
 async def abandon_quest(callback: CallbackQuery, state: FSMContext):
+    quest_index = int(callback.data.split(".")[-1])
+    if quest_index == 0:
+        markup = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [InlineKeyboardButton(text="Продолжить", callback_data="quest.start.0")]
+            ]
+        )
+        text = "первый квест нельзя отменить, он будет назначен автоматически"
+        await callback.message.edit_text(text=text, reply_markup=markup)
+        return
     user = await user_manager.load_user(callback.message.chat.id)
     # TODO
 
@@ -77,7 +89,6 @@ class QuestRunner:
         await callback.message.edit_text(text=text, reply_markup=markup)
     
     def __init__(self, message: Message, user: User):
-        # TODO update player active quest
         self.user = user
         self.message = message
         self.quest: Quest = user.player.active_quest

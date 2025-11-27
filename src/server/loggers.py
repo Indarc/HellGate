@@ -35,6 +35,7 @@ def setup_logger(name: str) -> logging.Logger:
 class Loggers:
     config = setup_logger("config")
     main = setup_logger("main")
+    game = setup_logger("game.logger")
     game_handlers = setup_logger("handlers.game.logger")
     game_classes = setup_logger("game.classes.logger")
     user_db_logger = setup_logger("user.db.logger")

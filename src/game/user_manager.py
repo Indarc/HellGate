@@ -35,7 +35,7 @@ class UserManager:
             return
         await self.user_db_executor.update(user)
 
-    async def load_user(self, user_id: int, user_object: User=None) -> User | None:
+    async def load_user(self, user_id: int) -> User | None:
         data: User = self.users.get(user_id)
         if not data:
             if os.path.exists(PLAYERS_TEMP_FOLDER / f"{user_id}{FILE_EXTANSION}"):
@@ -70,3 +70,11 @@ class UserManager:
             await self.update_user_in_db(user_id)
             await self.update_temp_folder(user_id)
         Loggers.user_manager_logger.info("✔️Successfull export users to DB")
+    
+    def clear_temp_folder(self):
+        players_files = [x for x in os.listdir(PLAYERS_TEMP_FOLDER)]
+        for file in players_files:
+            if os.path.exists(PLAYERS_TEMP_FOLDER / file):
+                os.remove(PLAYERS_TEMP_FOLDER / file)
+            else:
+                Loggers.user_manager_logger.error(f"Can`t delete user file in temp folder: {file}")

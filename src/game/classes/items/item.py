@@ -1,4 +1,4 @@
-from .item_import import items
+from game import items
 
 
 class Item: # base class for all items

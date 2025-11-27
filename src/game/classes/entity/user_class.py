@@ -20,15 +20,15 @@ class User:
             if not player_dict:
                 Loggers.game_classes.error("[USER_INIT] Player dict missing")
                 return
-            self.id = id
+            self.id: int = id
             self.player = Player(data=player_dict)
 
         else:
             if not id or not player:
                 Loggers.game_classes.error("User class requered parameters to initialize")
                 return
-            self.id = id
-            self.player = player
+            self.id: int = id
+            self.player: Player = player
     
     def to_dict(self) -> dict:
         return {

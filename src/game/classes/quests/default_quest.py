@@ -4,7 +4,7 @@ from server.loggers import Loggers
 
 # from game.classes.entity import Player
 from game.classes.inventory.error_class import DontEnoughSlotsError
-from game.classes.items.item_import import items
+from game import items
 
 from .errors import QuestAlreadyComplite
 from . import get_clear_quests

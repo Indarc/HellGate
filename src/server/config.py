@@ -1,7 +1,5 @@
 import asyncio
-from pathlib import Path
 import sys
-from time import sleep
 
 from aiogram import Bot, Dispatcher
 from pydantic import SecretStr
@@ -9,10 +7,12 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from tortoise import Tortoise
 
+from paths import ROOT_DIR, RESOURCES_DIR
+
 from db.executor import DB
 from db.models.user import User
+
 from server.loggers import Loggers
-from paths import ROOT_DIR, RESOURCES_DIR
 
 from game.user_manager import UserManager
 
@@ -74,6 +74,7 @@ async def shutdown():
     try:
         await asyncio.sleep(0.5)
         await user_manager.save_data()
+        user_manager.clear_temp_folder()
         await asyncio.sleep(0.5)
         await Tortoise.close_connections()
         Loggers.config.info("Connections closed")

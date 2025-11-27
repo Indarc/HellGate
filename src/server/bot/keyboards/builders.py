@@ -27,9 +27,9 @@ def start_quest(quest_index: int, user: User) -> tuple[InlineKeyboardMarkup, str
     text = f"Начать квест:\n{quest.name}"
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Да", callback_data="quest.start"),
-             InlineKeyboardButton(text="Отменить", callback_data="quest.abandon")]
+            [InlineKeyboardButton(text="Да", callback_data=f"quest.start.{quest_index}"),
+             InlineKeyboardButton(text="Отменить", callback_data=f"quest.abandon.{quest_index}")]
         ]
     )
-    user.player.active_quest = user.player.quests[quest_index] # TODO попробовать переместить в инициализаю QuestRunner
+    # user.player.active_quest = user.player.quests[quest_index] # TODO попробовать переместить в инициализаю QuestRunner
     return (markup, text)

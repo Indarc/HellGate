@@ -5,7 +5,6 @@ from aiogram.filters import CommandStart
 from server.bot.keyboards.builders import welcome_markup, start_quest
 from server.config import user_db, user_manager
 from game.classes.entity import User
-from game.handlers.player_handler import load_user
 
 
 router = Router(name="command.handler")
@@ -18,6 +17,5 @@ async def start_command(message: Message):
         markup, text = welcome_markup()
         await message.answer(text=text, reply_markup=markup)
     else:
-        # await load_user(message, data)
-        markup, text = start_quest(0, data)
-        await message.answer(text=text, reply_markup=markup)
+        # TODO handle user end load his last location and actions
+        pass
