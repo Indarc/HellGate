@@ -3,11 +3,13 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQu
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from game.classes.inventory.inventory import Slot
 from game.classes.items.weapon import Weapon
 from server.config import user_manager
 
 from game.classes.entity.user_class import User
 from game.handlers.state import State
+from game.interface.handlers.inventory import weapon_desc
 from game.interface import PlayerInterface
 
 
@@ -38,7 +40,10 @@ class GuideLine:
         if current_step == "1":
             await guideline.open_item_guide()
         elif current_step == "2":
-            await guideline.extra_item_info_guide()
+            slot = user.player.inventory.slots[0]
+            await guideline.extra_item_info_guide(slot)
+        elif current_step == "3":
+            await guideline.outfit_guide()
 
     def __init__(self, user: User, message: Message):
         self.user = user
@@ -75,5 +80,17 @@ class GuideLine:
         new_builder.adjust(4)
         await self.message.edit_text(text=guidetext, reply_markup=new_builder.as_markup())
     
-    async def extra_item_info_guide(self):
+    async def extra_item_info_guide(self, slot: Slot):
+        text = weapon_desc(slot)
+        markup = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [InlineKeyboardButton(text="Продолжить", callback_data=f"{self.callback}.3")]
+            ]
+        )
+        await self.message.edit_text(text=text, reply_markup=markup)
+    
+    async def outfit_guide(self):
+        ...
+
+    async def battle_guide(self):
         ...

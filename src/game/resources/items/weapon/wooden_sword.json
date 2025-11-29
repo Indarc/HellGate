@@ -6,7 +6,8 @@
     "description": "Уже потресканный от тренеровок меч",
     "stacked": false,
     "damage": 2,
-    "accuracy": 5,
+    "crit": 0.0,
+    "accuracy": 5.0,
     "slot": 0,
     "upgrade": 0,
     "emoji": null
