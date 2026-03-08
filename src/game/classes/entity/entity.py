@@ -16,7 +16,7 @@ class Entity:
         if not name and not data:
             loggers.game_classes.error("[ENTITY_INIT] Entity object requered paramateres to initializating")
             return
-        self.entity_type = data.get("entity_type", "entity") if data else 
+        self.entity_type = data.get("entity_type", "entity") if data else "entity"
         self.name: str = data.get("name", "Unknow") if data else name if name else "Unknow"
         self.inventory = Inventory(data=data.get("inventory")) if data else Inventory()
         self.attributes: Attributes = Attributes(data=data.get("attributes")) if data else Attributes()
@@ -83,7 +83,7 @@ class Entity:
     def get_evasion_rating(self) -> int:
         return self.characteristics.get_evasion_rating()
     
-    def get_evasion_chance(self, enemy: Entity) -> float:
+    def get_evasion_chance(self, enemy: "Entity") -> float:
         return self.characteristics.get_evasion_chance(enemy)
     
     def get_accuracy_rating(self) -> int:

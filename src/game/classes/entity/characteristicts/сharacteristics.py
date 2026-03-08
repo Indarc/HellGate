@@ -55,9 +55,9 @@ class Characteristics:
 
     def get_evasion_rating(self) -> int:
         # базовое уклонение зависит от процента уклонения на броне
-        return self.tracking_equipment.get_evasion()
+        return self.tracking_equipment.get_total_evasion()
     
-    def get_evasion_chance(self, enemy: Entity) -> float:
+    def get_evasion_chance(self, enemy: "Entity") -> float:
         ...
 
     def get_armor(self) -> int:

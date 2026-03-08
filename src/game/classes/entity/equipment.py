@@ -55,13 +55,13 @@ class Equipment:
             hp_buffes.update(max_health_buffes)
         return hp_buffes
 
-    def get_evasion(self) -> int:
+    def get_total_evasion(self) -> int:
         total_evasion = 0
         for slot, item in self.__dict__.items():
             if slot not in ["helmet", "body", "legs", 
                             "boots", "gloves", "cloak"] or item is None:
                 continue
-            total_evasion += item.stats.get_evasion()
+            total_evasion += item.stats.get_evasion_rating()
         return total_evasion
     
     def get_armor(self) -> int:

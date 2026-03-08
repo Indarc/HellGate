@@ -22,14 +22,14 @@ class Player(Entity):
         exp = self.level.get_experience()
         text = f"""
 ┌────── ▰▰☆▰▰ ──────┐
- ───❤️HP: {self.health}/{self.get_max_health()}
+ ───❤️HP: {self.characteristics.health}/{self.get_max_health()}
  ───Имя: {self.name}
  ───Уровень: {self.level.get_level()}
  ───Опыт: {exp[0]}/{exp[1]}
 
- ───⚔️Урон: {self.get_damage()}
+ ───⚔️Урон: {self.get_damage().to_dict()}
  ───🛡️Броня: {self.get_armor()}
- ───👟Уклонение: {self.get_evasion()}
+ ───👟Уклонение: {self.get_evasion_rating()}
  ───🎯Точность: {self.get_accuracy_rating()}
 
  ───Атрибуты:

@@ -38,7 +38,7 @@ class Config(BaseSettings):
     DB_CLEAR_PASSWORD: SecretStr
 
     model_config = SettingsConfigDict(
-        env_file=ROOT_DIR / "server" / ".env",
+        env_file=ROOT_DIR / ".env",
         env_file_encoding="utf-8"
     )
 
@@ -64,11 +64,7 @@ from db.executor import DB
 from db.models.user import UserModel
 
 # import managers here to avoid circular dependencies during module import
-from game.manager.combat_manager import CombatManager
-from game.manager.item_manager import ItemManager
-from game.manager.quest_manager import QuestManager
-from game.manager.game_manager import GameManager
-from game.manager.user_manager import UserManager
+from game.manager import CombatManager, ItemManager, QuestManager, GameManager, UserManager
 
 user_db = DB(tracking_database=UserModel, logger=loggers.user_db_logger)
 game_manager = GameManager(
