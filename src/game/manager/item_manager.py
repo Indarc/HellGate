@@ -12,15 +12,15 @@ from server.config import loggers
 class ItemManager:
     def __init__(self, items_path: Path):
         self.items_path = items_path
-        self.items: dict[int, Item] = self.__load_items()
         self.item_classes = {
             "weapon": Weapon,
             "armor": Armor,
             "jewelry": Jewelry,
             "another": Item
         }
+        self.items: dict[int, Item] = self.__load_items()
     
-    def get_item(self, item_id: int) -> Optional[Item]:
+    def get_item(self, item_id: int) -> Optional[Item | EquipItem]:
         """Return item object by item id"""
         return self.items.get(item_id)
 
@@ -59,7 +59,7 @@ class ItemManager:
             for path in item_paths:
                 with open(path, encoding="utf-8") as file:
                     item_dict: dict = json.load(file)
-                    item_type = item_dict.get("_")
+                    item_type = item_dict.get("item_type")
                     if not item_type:
                         loggers.game.warning(f"Item type not found in file {path}")
                         continue

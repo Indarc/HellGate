@@ -2,9 +2,6 @@ import pytest
 
 from game.classes.entity.player import Player
 from game.classes.items import *
-from game.classes.entity.characteristicts import Attributes
-from game.classes.inventory.inventory import Inventory
-from game.classes.items import weapon
 
 
 def make_weapon(name: str = "Sword of Testing", damage: int = 10, equip_requirements: dict= {"level": 1}) -> Weapon:
@@ -18,7 +15,9 @@ def make_weapon(name: str = "Sword of Testing", damage: int = 10, equip_requirem
         "emoji": "🗡️",
         "stacked": False,
         "stats": {
-            "damage": damage,
+            "damage": {
+                "physical": 10
+            },
             "crit": 5.0,
             "crit_multy": 2.0,
             "attack_speed": 1.0

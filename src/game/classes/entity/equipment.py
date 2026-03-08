@@ -70,7 +70,7 @@ class Equipment:
             if slot not in ["helmet", "body", "legs", 
                             "boots", "gloves", "cloak"] or item is None:
                 continue
-            total_armor += item.stats.get_armor()
+            total_armor += item.stats.get_armor_rating()
         return total_armor
 
     def to_dict(self) -> dict:

@@ -26,7 +26,7 @@ class Attributes(ReturnAttributes):
     def __init__(self, agility: int=3, strength: int=3, intelligence: int=3, data: Optional[dict]=None):
         super().__init__(agility, strength, intelligence, data)
     
-    def get_health_from_strength(self) -> int:
+    def get_health_from_strength(self) -> float:
         return (self.strength * __class__.streng_hp_multiplicator) # default 15
 
     def add_attributes(self, agility: int=0, strength: int=0, intelligence: int=0):

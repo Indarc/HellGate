@@ -49,7 +49,7 @@ class TestCharacteristics:
         armor = create_armor()
         self.player.equip_item(armor)
 
-        assert self.player.get_armor() == armor.stats.get_armor()
+        assert self.player.get_armor_rating() == armor.stats.get_armor_rating()
         assert self.player.get_evasion_rating() == armor.stats.get_evasion_rating()
 
     def test_armor_affixes(self):

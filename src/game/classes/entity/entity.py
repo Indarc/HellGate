@@ -70,15 +70,18 @@ class Entity:
     def get_level(self) -> int:
         return self.level.get_level()
 
-    def get_max_health(self) -> int:
+    def get_health(self) -> float:
+        return self.characteristics.get_health()
+
+    def get_max_health(self) -> float:
         return self.characteristics.get_max_health()
     
     def get_damage(self) -> Damage:
         """Returns total damage with all buffs and attribute effects"""
         return self.characteristics.get_weapon_damage()
     
-    def get_armor(self) -> int:
-        return self.characteristics.get_armor()
+    def get_armor_rating(self) -> int:
+        return self.characteristics.get_armor_rating()
 
     def get_evasion_rating(self) -> int:
         return self.characteristics.get_evasion_rating()
@@ -95,10 +98,21 @@ class Entity:
     def add_experience(self, exp: int) -> None:
         self.level.add_exp(exp)
 
-    def take_damage(self, dmg: Damage) -> bool:
+    def check_alive(self) -> bool:
+        return self.characteristics.check_alive()
+
+    def attack(self, target: "Entity") -> tuple[bool, int]:
+        weapon = self.equipment.get_equip("mainhand")
+        if not weapon or not isinstance(weapon, Weapon):
+            return (True, 0)
+        return target.take_damage(weapon)
+
+    def take_damage(self, weapon: Weapon) -> tuple[bool, int]:
+        "Return alive status and taken damage ([bool], [int])"
         # TODO evasion chance
         # TODO поломка снаряжения
-        return self.characteristics.take_damage(dmg)
+        damage_taken = self.characteristics.take_damage(weapon)
+        return (self.check_alive(), damage_taken)
 
     def battle_banner(self, enemy: "Entity") -> str:
         text = f"""
@@ -107,7 +121,7 @@ class Entity:
 Уровень: {self.level.get_level()}
 
 ⚔️Урон: {self.get_damage().to_dict()}
-🛡️Броня: {self.get_armor()}
+🛡️Броня: {self.get_armor_rating()}
 👟Уклонение: {self.get_evasion_chance(enemy)}%
 🎯Точность: {self.get_hit_chance(enemy)}%
 """

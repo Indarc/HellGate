@@ -3,8 +3,8 @@ from typing import Optional
 
 
 class Prefix:
-    def __init__(self, prefix: tuple[str, int | float]) -> None:
-        setattr(self, prefix[0], prefix[1])
+    def __init__(self, stat: str, value: int) -> None:
+        setattr(self, stat, value)
 
     def get_attribute(self) -> tuple[str | None, int | float | None]:
         # Получаем имя и значение первого атрибута
@@ -13,16 +13,16 @@ class Prefix:
         return None, None  # Если атрибутов нет
 
 class ArmorPrefix(Prefix):
-    def __init__(self, prefix: tuple[str, int | float]) -> None:
-        super().__init__(prefix)
+    def __init__(self, stat: str, value: int) -> None:
+        super().__init__(stat, value)
     
 
 class WeaponPrefix(Prefix):
-    def __init__(self, prefix: tuple[str, int | float]) -> None:
-        super().__init__(prefix)
+    def __init__(self, stat: str, value: int) -> None:
+        super().__init__(stat, value)
 
 
 class BagPrefix(Prefix):
-    def __init__(self, prefix: tuple[str, int | float]) -> None:
-        super().__init__(prefix)
+    def __init__(self, stat: str, value: int) -> None:
+        super().__init__(stat, value)
     

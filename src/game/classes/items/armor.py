@@ -13,7 +13,7 @@ class ArmorStats(EquipItemStats):
         self.armor: int = stats.get("armor", 0)
         self.evasion: int = stats.get("evasion", 0)
     
-    def get_armor(self) -> int:
+    def get_armor_rating(self) -> int:
         return self.armor
     
     def get_evasion_rating(self) -> int:

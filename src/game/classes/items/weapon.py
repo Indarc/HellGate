@@ -61,7 +61,7 @@ class Weapon(EquipItem):
 class WeaponStats(EquipItemStats):
     def __init__(self, stats: dict):
         super().__init__(stats)
-        self.damage = Damage(stats.get("damages", {}))
+        self.damage = Damage(stats.get("damage", {}))
         self.crit: float = stats.get("crit", 0.0)
         self.crit_multy: float = stats.get("crit_multy", 0.0)
         self.attack_speed: float = stats.get("attack_speed", 0.0)

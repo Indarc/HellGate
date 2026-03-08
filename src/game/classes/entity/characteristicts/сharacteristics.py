@@ -17,9 +17,12 @@ class Characteristics:
         self.tracking_attributes = tracking_attributes
         self.tracking_equipment = tracking_equipment
         self.resistances = Resistances(resistances)
-        self.health = self.get_max_health()
+        self.health: float = self.get_max_health()
 
-    def get_max_health(self) -> int:
+    def get_health(self) -> float:
+        return self.health
+
+    def get_max_health(self) -> float:
         default_hp = 20
         hp_from_strength = self.tracking_attributes.get_health_from_strength()
         hp_equipment_buffes = self.tracking_equipment.get_health_buff()
@@ -60,15 +63,31 @@ class Characteristics:
     def get_evasion_chance(self, enemy: "Entity") -> float:
         ...
 
-    def get_armor(self) -> int:
+    def get_armor_rating(self) -> int:
+        # 10 armor rating absorbing 1 physical damage
         return self.tracking_equipment.get_armor()
 
-    def take_damage(self, dmg: Damage) -> bool:
-        self.health -= dmg.physical.get_value()
-        self.health -= dmg.fire.get_value() - (dmg.fire.get_value() / 100 * self.resistances.fire.get_value())
-        self.health -= dmg.cold.get_value() - (dmg.cold.get_value() / 100 * self.resistances.cold.get_value())
-        self.health -= dmg.lightning.get_value() - (dmg.lightning.get_value() / 100 * self.resistances.lightning.get_value())
-        return self.check_alive()
+    def take_damage(self, weapon: Weapon) -> float:
+        from random import randint
+        crit = False
+        critical_chance = weapon.get_crit()
+        critical_multy = weapon.get_crit_multy()
+        rnd = randint(1, 101)
+        if rnd <= critical_chance:
+            crit = True
+        physical_damage = weapon.get_damage().physical.get_value() * (critical_multy if crit else 1)
+        fire_damage = weapon.get_damage().fire.get_value() * (critical_multy if crit else 1)
+        cold_damage = weapon.get_damage().cold.get_value() * (critical_multy if crit else 1)
+        lightning_damage = weapon.get_damage().lightning.get_value() * (critical_multy if crit else 1)
+        reduced_physical_damage = physical_damage - (self.get_armor_rating() // 10)
+        reduced_fire_damage = fire_damage - (fire_damage / 100 * self.resistances.fire.get_value())
+        reduced_cold_damage = cold_damage - (cold_damage / 100 * self.resistances.cold.get_value())
+        reduced_lightning_damage = lightning_damage - (lightning_damage / 100 * self.resistances.lightning.get_value())
+        self.health -= reduced_physical_damage
+        self.health -= reduced_fire_damage
+        self.health -= reduced_cold_damage
+        self.health -= reduced_lightning_damage
+        return reduced_physical_damage + reduced_fire_damage + reduced_cold_damage + reduced_lightning_damage
 
     def check_alive(self) -> bool:
         if self.health <= 0:

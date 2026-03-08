@@ -1,6 +1,6 @@
 class Suffix:
-    def __init__(self, suffix: tuple[str, int | float]) -> None:
-        setattr(self, suffix[0], suffix[1])
+    def __init__(self, stat: str, value: int) -> None:
+        setattr(self, stat, value)
     
     def get_attribute(self) -> tuple[str | None, int | float | None]:
         # Получаем имя и значение первого атрибута
@@ -10,15 +10,15 @@ class Suffix:
 
 
 class ArmorSuffix(Suffix):
-    def __init__(self, suffix: tuple[str, int | float]) -> None:
-        super().__init__(suffix)
+    def __init__(self, stat: str, value: int) -> None:
+        super().__init__(stat, value)
     
 
 class WeaponSuffix(Suffix):
-    def __init__(self, suffix: tuple[str, int | float]) -> None:
-        super().__init__(suffix)
+    def __init__(self, stat: str, value: int) -> None:
+        super().__init__(stat, value)
 
 
 class BagSuffix(Suffix):
-    def __init__(self, suffix: tuple[str, int | float]) -> None:
-        super().__init__(suffix)
+    def __init__(self, stat: str, value: int) -> None:
+        super().__init__(stat, value)

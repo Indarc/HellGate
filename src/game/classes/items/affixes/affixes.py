@@ -15,10 +15,10 @@ class Affixes:
             self.max_affixes = 3
         else:
             self.max_affixes = 1
-        prefixes_dict: dict[str, int | float] = affixes.get("prefixes", {})
-        suffixes_dict: dict[str, int | float] = affixes.get("suffixes", {})
-        prefixes = [Prefix(x) for x in prefixes_dict.items()]
-        suffixes = [Suffix(x) for x in suffixes_dict.items()]
+        prefixes_dict: dict = affixes.get("prefixes", {})
+        suffixes_dict: dict = affixes.get("suffixes", {})
+        prefixes = [Prefix(x, y) for x, y in prefixes_dict.items()]
+        suffixes = [Suffix(x, y) for x, y in suffixes_dict.items()]
         self.prefixes = []
         self.suffixes = []
         for i in range(self.max_affixes):

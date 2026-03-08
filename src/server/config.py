@@ -1,6 +1,5 @@
 import asyncio
 import sys
-from tkinter import Place
 
 from aiogram import Bot, Dispatcher
 from pydantic import SecretStr
@@ -63,16 +62,7 @@ except Exception as ex:
 from db.executor import DB
 from db.models.user import UserModel
 
-# import managers here to avoid circular dependencies during module import
-from game.manager import CombatManager, ItemManager, QuestManager, GameManager, UserManager
-
 user_db = DB(tracking_database=UserModel, logger=loggers.user_db_logger)
-game_manager = GameManager(
-        UserManager(user_db_executor=user_db),
-        ItemManager(items_path=RESOURCES_DIR / "items"),
-        CombatManager(),
-        QuestManager()
-    )
 
 async def init_db():
     try:
@@ -90,6 +80,7 @@ async def init_db():
         return e
 
 async def shutdown():
+    from game import game_manager
     try:
         await asyncio.sleep(0.5)
         await game_manager.user_manager.save_data()

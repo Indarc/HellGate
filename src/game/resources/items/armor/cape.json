@@ -17,7 +17,9 @@
         "level": 1
     },
     "affixes":{
-        "prefixes": [{"max_health": 10}],
-        "suffixes": []
+        "prefixes": {
+            "max_health": 10
+        },
+        "suffixes": {}
     }
 }
