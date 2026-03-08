@@ -1,1 +1,1 @@
-from .models.user import User, UserShema
+from .models.user import UserModel, UserShema

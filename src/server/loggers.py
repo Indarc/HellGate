@@ -2,7 +2,6 @@ import logging
 import sys
 from pathlib import Path
 
-
 ROOT_DIR = Path(__file__).parent.parent
 
 def setup_logger(name: str) -> logging.Logger:
@@ -33,15 +32,18 @@ def setup_logger(name: str) -> logging.Logger:
     return logger
 
 class Loggers:
-    config = setup_logger("config")
-    main = setup_logger("main")
-    game = setup_logger("game.logger")
-    game_handlers = setup_logger("handlers.game.logger")
-    game_classes = setup_logger("game.classes.logger")
-    user_db_logger = setup_logger("user.db.logger")
-    inventory_logger = setup_logger("game.inventory.logger")
-    hero_creation_logger = setup_logger("hero.creation.logger")
-    middlewares_logger = setup_logger("middlewares.logger")
-    tests_logger = setup_logger("tests.logger")
-    quest_logger = setup_logger("quest.logger")
-    user_manager_logger = setup_logger("game.user_manager.logger")
+    def __init__(self):
+        self.main = setup_logger("main.logger")
+        self.config = setup_logger("config.logger")
+        self.game = setup_logger("game.logger")
+        self.game_handlers = setup_logger("handlers.game.logger")
+        self.game_classes = setup_logger("game.classes.logger")
+        self.user_db_logger = setup_logger("user.db.logger")
+        self.inventory_logger = setup_logger("game.inventory.logger")
+        self.hero_creation_logger = setup_logger("hero.creation.logger")
+        self.middlewares_logger = setup_logger("middlewares.logger")
+        self.tests_logger = setup_logger("tests.logger")
+        self.quest_logger = setup_logger("quest.logger")
+        self.game_manager_logger = setup_logger("game.game_manager.logger")
+        self.user_manager_logger = setup_logger("game.user_manager.logger")
+        self.item_manager_logger = setup_logger("game.item_manager.logger")

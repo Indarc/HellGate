@@ -2,6 +2,7 @@ from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.context import FSMContext
 
+import game
 from game.classes.inventory.inventory import Inventory
 from game.classes.items.item import Item
 from game.classes.quests.default_quest import Quest
@@ -9,11 +10,9 @@ from game.classes.entity import User
 from game.classes.entity import Player
 from game.handlers.state import State
 
-from server.config import user_manager
-from server.loggers import Loggers
+from server.config import game_manager, loggers
 
 from game.classes.quests.errors import QuestAlreadyComplite
-from game import items
 
 
 router = Router(name="quests.router")
@@ -26,7 +25,7 @@ users_quests_runners: dict[str, "QuestRunner"] = {
 async def start_quest_callback(callback: CallbackQuery, state: FSMContext):
     data = callback.data
     quest_index = int(data.split(".")[-1])
-    user: User = await user_manager.load_user(callback.message.chat.id)
+    user: User = await game_manager.user_manager.load_user(callback.message.chat.id)
     user.player.active_quest = user.player.quests[quest_index]
     if user.player.active_quest.complite:
         await callback.message.edit_text(text=f'Квест "{user.player.active_quest.name}" уже выполнен.')
@@ -48,17 +47,17 @@ async def abandon_quest(callback: CallbackQuery, state: FSMContext):
         text = "первый квест нельзя отменить, он будет назначен автоматически"
         await callback.message.edit_text(text=text, reply_markup=markup)
         return
-    user = await user_manager.load_user(callback.message.chat.id)
+    user = await game_manager.user_manager.load_user(callback.from_user.id)
     # TODO
 
 class QuestRunner:
     @router.callback_query(State.quest, F.data)
     async def action(callback: CallbackQuery, state: FSMContext):
         data_list = callback.data.split('.')
-        quest_runner: QuestRunner = users_quests_runners[callback.message.chat.id]
+        quest_runner: QuestRunner = users_quests_runners[callback.from_user.id]
         quest = quest_runner.quest
         if quest.callback != data_list[0] + '.' + data_list[1]:
-            Loggers.quest_logger.warning(f"Quest data in Callback not equal data in quest callback variable\n Callback: {callback.data}\nQuest.callback: {quest.callback}")
+            loggers.quest_logger.warning(f"Quest data in Callback not equal data in quest callback variable\n Callback: {callback.data}\nQuest.callback: {quest.callback}")
             return
         user_choice = callback.data.split('.')[-1]
         last_action = callback.data.split('.')[-2]

@@ -1,6 +1,3 @@
-# vs code config folder
-.vscode
-
 # python env
 .venv
 
@@ -10,7 +7,7 @@ __pycache__/
 
 
 # Ignore log file
-/src/logs.log
+./src/logs.log
 
 # Ignore server environtment file
-# /src/server/.env
+./src/server/.env

@@ -1,7 +1,9 @@
+from turtle import st
+
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from game.classes.entity.user_class import User
-from server.config import messages
+from server.config import messages, game_manager
 
 
 def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:
@@ -15,20 +17,21 @@ def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:
 def accept_nickname() -> tuple[InlineKeyboardMarkup, str]:
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="✅ Подтвердить", callback_data="save_nickname"),
-             InlineKeyboardButton(text="✏️ Изменить", callback_data="change_nickname")]
+            [InlineKeyboardButton(text="✅ Подтвердить", callback_data="save_nickname", style="success"),
+             InlineKeyboardButton(text="✏️ Изменить", callback_data="change_nickname", style="primary")]
         ]
     )
     text = "Сохранить никнейм?"
     return (markup, text)
 
 def start_quest(quest_index: int, user: User) -> tuple[InlineKeyboardMarkup, str]:
-    quest = user.player.quests[quest_index]
+    # TODO
+    # quest = game_manager.quest_manager
     text = f"Начать квест:\n{quest.name}"
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Да", callback_data=f"quest.start.{quest_index}"),
-             InlineKeyboardButton(text="Отменить", callback_data=f"quest.abandon.{quest_index}")]
+            [InlineKeyboardButton(text="Да", callback_data=f"quest.start.{quest_index}", style="success"),
+             InlineKeyboardButton(text="Отменить", callback_data=f"quest.abandon.{quest_index}", style="danger")]
         ]
     )
     # user.player.active_quest = user.player.quests[quest_index] # TODO попробовать переместить в инициализаю QuestRunner

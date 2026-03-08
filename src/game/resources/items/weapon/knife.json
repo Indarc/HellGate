@@ -1,0 +1,24 @@
+{
+    "item_type": "weapon",
+    "id": 3,
+    "name": "Нож",
+    "rare": "common",
+    "cost": 0.0,
+    "description": "Старый и ржавый меч, который не может нанести серьезного урона. Его можно найти в заброшенных местах или у побежденных врагов.",
+    "stacked": false,
+    "stats": {
+        "damages": {
+            "physical": 5
+        },
+        "crit": 30.0,
+        "crit_multy": 3.0,
+        "attack_speed": 2,
+        "attribute_scale": ["agility", 1],
+        "upgrade": 0   
+    },
+    "slot": "mainhand",
+    "emoji": "🗡️",
+    "equip_requirements": {
+        "level": 1
+    }
+}
