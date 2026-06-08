@@ -1,38 +1,43 @@
 from logging import Logger
+from typing import Optional, Type, TYPE_CHECKING
 
-from db.models.user import User, UserShema
-from game.classes.entity.user_class import User as app_user
-from server.loggers import Loggers
+from db.models.user import UserModel, UserShema
+from server.config import loggers
+
+if TYPE_CHECKING:
+    from game.classes.entity.user_class import User as app_user
 
 
 class DB:
-    def __init__(self, tracking_database: User, logger: Logger):
+    def __init__(self, tracking_database: Type, logger: Logger):
         self.tracking_database = tracking_database
         self.logger = logger
     
-    async def add(self, id, user_entity: app_user):
+    async def add(self, id, user_entity: "app_user"):
         data = await self.get(id)
         if data:
-            Loggers.user_db_logger.error(f"User with {id} ID already exists in DB, can`t create new user with this id")
+            loggers.user_db_logger.error(f"User with {id} ID already exists in DB, can`t create new user with this id")
             return
         user = await self.tracking_database.create(id=id, user_entity=user_entity.to_dict())
         await user.save()
         self.logger.info(f"Created new user with id {user_entity.id}")
     
-    async def get(self, user_id: int) -> app_user:
+    async def get(self, user_id: int) -> Optional[UserModel]:
         user = await self.tracking_database.filter(id=user_id).first()
-        if user:
-            user_object = app_user(id=user_id, data=user.user_entity)
-            return user_object
-        else:
-            return user
+        if not user:
+            return None
+        return user
     
-    async def remove(self, user_id):
-        user: User = await self.get(user_id)
+    async def remove(self, user_id) -> bool:
+        user: UserModel | None = await self.get(user_id)
+        if not user:
+            self.logger.error(f"Can`t delete user with {user_id} id from DB, user not found!")
+            return False
         await user.delete()
         self.logger.info(f"Deleted user with id {user_id} from user db")
+        return True
     
-    async def update(self, user_object: app_user):
+    async def update(self, user_object: "app_user"):
         data = await self.tracking_database.filter(id=user_object.id).first()
         if data:
             data.user_entity = user_object.to_dict()

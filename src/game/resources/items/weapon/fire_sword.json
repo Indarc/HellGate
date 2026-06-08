@@ -1,0 +1,24 @@
+{
+    "item_type": "weapon",
+    "id": 4,
+    "name": "Огненный меч",
+    "rare": "magic",
+    "cost": 0.0,
+    "description": "Старый и ржавый меч, который не может нанести серьезного урона. Его можно найти в заброшенных местах или у побежденных врагов.",
+    "stacked": false,
+    "stats": {
+        "damage": {
+            "physical": 5
+        },
+        "crit": 30.0,
+        "crit_multy": 3.0,
+        "attack_speed": 2,
+        "attribute_scale": ["strength", 2],
+        "upgrade": 0   
+    },
+    "slot": "mainhand",
+    "emoji": "🗡️",
+    "equip_requirements": {
+        "level": 1
+    }
+}

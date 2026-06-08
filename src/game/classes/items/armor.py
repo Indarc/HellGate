@@ -1,5 +1,20 @@
-from .item import Item
+from .item import EquipItem, EquipItemStats
 
 
-class Armor(Item):
-    ...
+class Armor(EquipItem):
+    def __init__(self, data: dict):
+        super().__init__(data)
+        self.stats = ArmorStats(data.get("stats", {}))
+
+
+class ArmorStats(EquipItemStats):
+    def __init__(self, stats: dict) -> None:
+        super().__init__(stats)
+        self.armor: int = stats.get("armor", 0)
+        self.evasion: int = stats.get("evasion", 0)
+    
+    def get_armor_rating(self) -> int:
+        return self.armor
+    
+    def get_evasion_rating(self) -> int:
+        return self.evasion

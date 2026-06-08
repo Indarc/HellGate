@@ -1,0 +1,25 @@
+{
+    "item_type": "armor",
+    "id": 2,
+    "name": "Грязная накидка",
+    "rare": "common",
+    "cost": 0.0,
+    "description": "Старая накидка, вся пропитанная грязью. Не особо защитит от врагов.",
+    "stacked": false,
+    "slot": "body",
+    "emoji": "👘",
+    "stats": {
+        "armor": 1,
+        "evasion": 20,
+        "upgrade": 0  
+    },
+    "equip_requirements": {
+        "level": 1
+    },
+    "affixes":{
+        "prefixes": {
+            "max_health": 10
+        },
+        "suffixes": {}
+    }
+}

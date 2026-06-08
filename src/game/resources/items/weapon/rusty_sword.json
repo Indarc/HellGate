@@ -1,0 +1,23 @@
+{
+    "item_type": "weapon",
+    "id": 0,
+    "name": "Ржавый меч",
+    "rare": "common",
+    "cost": 0.0,
+    "description": "Старый и ржавый меч, который не может нанести серьезного урона. Его можно найти в заброшенных местах или у побежденных врагов.",
+    "stacked": false,
+    "stats": {
+        "damage": {
+            "physical": 2
+        },
+        "crit": 0.0,
+        "crit_multy": 1.5,
+        "attack_speed": 1,
+        "upgrade": 0
+    },
+    "slot": "mainhand",
+    "emoji": "🗡️",
+    "equip_requirements": {
+        "level": 1
+    }
+}

@@ -1,5 +1,5 @@
-from .item import Item
+from .item import EquipItem
 
 
-class Jewelry(Item):
+class Jewelry(EquipItem):
     ...

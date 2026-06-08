@@ -1,11 +1,13 @@
+from ast import In
+
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.fsm.context import FSMContext
 
-from server.config import user_manager
+from server.config import game_manager
 from server.bot.keyboards.builders import accept_nickname
 from server.bot.handlers.catch import Catch
-from server.loggers import Loggers
+from server.config import loggers
 
 from game.classes.entity import Player
 from game.classes.entity import User
@@ -20,10 +22,16 @@ def clear_string(text: str) -> str:
     text = text.strip().replace("\\", "").replace("/", "").replace(" ", "")
     return text
 
+@router.callback_query(F.data == "create.hero")
+async def create_hero(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(Catch.nickname)
+    text = "Введите имя своего персонажа (вводите имя слитно по русский или английски):"
+    await callback.message.edit_text(text=text)
+
 @router.message(Catch.nickname, F.text)
 async def nickname_catch(message: Message, state: FSMContext):
     if not message.text or not state:
-        Loggers.hero_creation_logger.warning(f"Нет объекта Message или state\n Message: {message}\n State: {state}")
+        loggers.hero_creation_logger.warning(f"Нет объекта Message или state\n Message: {message}\n State: {state}")
         return
 
     # update state data with user message to get dict with message
@@ -31,7 +39,7 @@ async def nickname_catch(message: Message, state: FSMContext):
     data: dict[str, str] = await state.get_data()
     await state.clear()
     
-    user_input = data.get("message")
+    user_input= str(data.get("message"))
     user_input = clear_string(user_input)
     nicknames.setdefault(message.chat.id, user_input)
 
@@ -43,15 +51,16 @@ async def nickname_catch(message: Message, state: FSMContext):
 async def save_nickname(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     
-    hero = Player(nicknames.pop(callback.message.chat.id))
+    hero = Player(nicknames.pop(callback.from_user.id))
     user = User(callback.from_user.id, hero)
 
-    await user_manager.save_user(user)
+    await game_manager.user_manager.save_user(user)
 
-    text = f"Теперь тебе надо пройти гайд лайн, который поможет разобраться в механиках игры (инвентарь, экипировка, бой и т.п.)"
+    text = f"Теперь тебе можно пройти обучение, которое поможет разобраться в механиках игры: инвентарь, экипировка, бой, классы и так далее.\nНе переживай, обучение не займет много времени, а после него ты сможешь свободно играть и наслаждаться процессом. Нажимай на кнопку ниже, чтобы начать обучение!"
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Начать", callback_data="start.guide")]
+            [InlineKeyboardButton(text="Начать", callback_data="start.guide", style="success"),
+             InlineKeyboardButton(text="Пропустить", callback_data="skip.guide", style="primary")]
         ]
     )
     await callback.message.edit_text(text=text, reply_markup=markup)

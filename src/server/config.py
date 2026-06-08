@@ -9,12 +9,14 @@ from tortoise import Tortoise
 
 from paths import ROOT_DIR, RESOURCES_DIR
 
-from db.executor import DB
-from db.models.user import User
-
 from server.loggers import Loggers
 
-from game.user_manager import UserManager
+# DB and User model imports are deferred until after loggers instantiation to avoid circular
+# imports. They will be imported later before creating user_db.
+
+# manager imports are delayed until after loggers instantiation to prevent circular imports
+
+
 
 
 messages = {
@@ -35,54 +37,61 @@ class Config(BaseSettings):
     DB_CLEAR_PASSWORD: SecretStr
 
     model_config = SettingsConfigDict(
-        env_file=ROOT_DIR / "server" / ".env",
+        env_file=ROOT_DIR / ".env",
         env_file_encoding="utf-8"
     )
 
 
 config = Config()
+loggers = Loggers()
 
 DB_URL = f"{config.CONN.get_secret_value()}://{config.POSTGRES_USER.get_secret_value()}:{config.POSTGRES_PASSWORD.get_secret_value()}@{config.POSTGRES_HOST.get_secret_value()}:{config.POSTGRES_PORT.get_secret_value()}/{config.POSTGRES_DB.get_secret_value()}"
 
-Loggers.config.info("Start connecting bot")
+loggers.config.info("Start connecting bot")
 try:
     bot = Bot(config.BOT_TOKEN.get_secret_value())
     dp = Dispatcher()
-    Loggers.config.info("Bot connection successed")
+    loggers.config.info("Bot connection successed")
 except Exception as ex:
-    Loggers.config.error(f"Bot connection refused. Error: {ex}")
-    Loggers.config.info("Stopping app")
+    loggers.config.error(f"Bot connection refused. Error: {ex}")
+    loggers.config.info("Stopping app")
     sys.exit(1)
 
 # создание инструмента для работы с DB
-user_db = DB(tracking_database=User, logger=Loggers.user_db_logger)
-user_manager = UserManager(user_db_executor=user_db)
+# import DB and User model now that loggers is available
+from db.executor import DB
+from db.models.user import UserModel
+
+user_db = DB(tracking_database=UserModel, logger=loggers.user_db_logger)
 
 async def init_db():
     try:
         await Tortoise.init(config=TORTOISE_ORM)
-        Loggers.config.info("✔️ Tortoise connection successed")
+        loggers.config.info("✔️ Tortoise connection successed")
 
         # Проверка, что модели загружены
-        Loggers.config.info(f"✔️ Models: {list(Tortoise.apps.get("models").keys())}")
+        models = Tortoise.apps.get("models")
+        if not models:
+            raise Exception("No models found in Tortoise ORM")
+        loggers.config.info(f"✔️ Models: {list(models.keys())}")
         
     except Exception as e:
-        Loggers.config.error(f"❌ Error: {e}")
+        loggers.config.error(f"❌ Error: {e}")
         return e
 
 async def shutdown():
+    from game import game_manager
     try:
         await asyncio.sleep(0.5)
-        await user_manager.save_data()
-        user_manager.clear_temp_folder()
+        await game_manager.user_manager.save_data()
         await asyncio.sleep(0.5)
         await Tortoise.close_connections()
-        Loggers.config.info("Connections closed")
+        loggers.config.info("Connections closed")
         await asyncio.sleep(0.5)
         await bot.session.close()
-        Loggers.config.info("Bot connection closed")
+        loggers.config.info("Bot connection closed")
     except Exception as e:
-        Loggers.config.error(f"Error during shutdown: {e}")
+        loggers.config.error(f"Error during shutdown: {e}")
     finally:
         await asyncio.sleep(0.5)
 

@@ -1,10 +1,9 @@
 from game.classes.inventory.inventory import Inventory
 from game.classes.items.item import Item
-from server.loggers import Loggers
+from server.config import loggers
 
 # from game.classes.entity import Player
 from game.classes.inventory.error_class import DontEnoughSlotsError
-from game import items
 
 from .errors import QuestAlreadyComplite
 from . import get_clear_quests
@@ -23,11 +22,11 @@ class Quest:
             self.callback = data.get("callback")
         else:
             if index == None:
-                Loggers.quest_logger.error("[QUEST_INIT] index parameter can`t be None")
+                loggers.quest_logger.error("[QUEST_INIT] index parameter can`t be None")
                 return
             self.quest_dict: dict = __class__.all_quests.get(index)
             if not self.quest_dict:
-                Loggers.quest_logger.error(f"Can`t find quest with {index} index in all_quests")
+                loggers.quest_logger.error(f"Can`t find quest with {index} index in all_quests")
                 return
             
             if self.quest_dict.get("state"):

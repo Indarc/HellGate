@@ -1,4 +1,4 @@
 # db/models/__init__.py
-from .user import User
+from .user import UserModel
 
-__all__ = ["User"]
+__all__ = ["UserModel"]

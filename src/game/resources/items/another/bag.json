@@ -1,0 +1,16 @@
+{
+    "item_type": "bag",
+    "id": 1,
+    "name": "Дырявый мешок",
+    "rare": "common",
+    "cost": 1.0,
+    "space": 2,
+    "description": "Старый и дырявый мешок, который может вместить несколько предметов, но не слишком надежный.",
+    "stacked": false,
+    "slot": "bag",
+    "upgrade": 0,
+    "emoji": "👜",
+    "equip_requirements": {
+        "level": 1
+    }
+}
