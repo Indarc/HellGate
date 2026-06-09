@@ -22,26 +22,41 @@ class PlayerInterface:
         return (text, builder.as_markup())
     
     @staticmethod
-    def outfit(player: Player):
-        outfit = player.outfit
+    def equipment(player: "Player") -> tuple[str, InlineKeyboardMarkup]:
+        callback = "equipment.open"
         text = f"""
-Экипировка
---------------
-Оружие: {outfit.main_weapon.name if outfit.main_weapon else "Пусто"}
-Второстепеное оружие: {outfit.offhand_weapon.name if outfit.offhand_weapon else "Пусто"}
-Голова: {outfit.helmet.name if outfit.helmet else "Пусто"}
-Тело: {outfit.armor.name if outfit.armor else "Пусто"}
-Ноги: {outfit.legs.name if outfit.legs else "Пусто"}
-Перчатки: {outfit.gloves.name if outfit.gloves else "Пусто"}
-Обувь: {outfit.boots.name if outfit.boots else "Пусто"}
-Амулет: {outfit.amulet.name if outfit.amulet else "Пусто"}
-Кольцо: {outfit.ring1.name if outfit.ring1 else "Пусто"}
-Кольцо: {outfit.ring2.name if outfit.ring2 else "Пусто"}
-Пояс: {outfit.belt.name if outfit.belt else "Пусто"}
-Сумка: {outfit.bag.name if outfit.bag else "Пусто"}
+----------------------Экипировка----------------------
+Показатели:
+Броня - {player.equipment.get_armor()}
+Улонение - {player.equipment.get_evasion()}
+...
 """
-        markup = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [InlineKeyboardButton(text="")] # TODO add outfit management buttons
-            ]
-        )
+        slots = {
+            "mainhand": "Оружие",
+            "offhand": "Второстепеное оружие",
+            "head": "Голова",
+            "body": "Тело",
+            "gloves": "Перчатки",
+            "legs": "Ноги",
+            "boots": "Обувь",
+            "cloak": "Плащь",
+            "amulet": "Амулет",
+            "ring1": "Кольцо",
+            "ring2": "Кольцо",
+            "belt": "Пояс",
+            "bag": "Сумка"
+        }
+        equipment_slots: dict[str, Optional["Item"]] = player.equipment.get_equipment()
+        markup_builder = InlineKeyboardBuilder()
+        for slot, item in equipment_slots.items():
+            if slot and isinstance(slot, str):
+                markup_builder.button(text=str(slots.get(slot)), callback_data=f"{callback}.{slot}", style="primary")
+                item_name = item.name if item else "Пусто"
+                if item:
+                    markup_builder.button(text=item_name, callback_data=f"{callback}.{slot}", style="success")
+                else:
+                    markup_builder.button(text=item_name, callback_data=f"{callback}.{slot}")
+        markup_builder.button(text="Закрыть", style="danger", callback_data=callback)
+        markup_builder.adjust(2)
+
+        return (text, markup_builder.as_markup())

@@ -77,7 +77,7 @@ class Equipment:
         """Return dictionary with equiped items
 
         Returns :
-            dict: {item_slot (str), item_id (int) | None}
+            dict: {item_slot (str), item[Item] | None}
         """
         return {
             "mainhand": self.mainhand.to_dict() if self.mainhand else None,
