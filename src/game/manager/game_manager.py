@@ -4,7 +4,7 @@ from game.manager.item_manager import ItemManager
 from game.manager.user_manager import UserManager
 from game.manager.combat_manager import CombatManager
 from game.manager.quest_manager import QuestManager
-from server.config import loggers
+from config import loggers
 
 
 class GameManager:

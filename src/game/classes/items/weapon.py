@@ -10,18 +10,16 @@ class Weapon(EquipItem):
         super().__init__(data=data)
         self.stats = WeaponStats(data.get("stats", {}))
     
-    def banner(self, count: int):
-        text = super().banner(count=count)
-        slot_item = "Основной" if self.slot == 0 else "Вспомогательное"
-        text += f"""
-----------------------------------
-Урон: {self.get_damage()} ❣️
+    def interface(self, count: int):
+        info = super().interface(count=count)
+        slot_item = "Основной" if self.slot == "mainhand" else "Вспомогательное"
+        text = f"""Урон: {self.get_damage().interface()}
 Крит. шанс: {self.get_crit()}%
 Множитель критического урона: x{self.get_crit_multy()}
-Скорость атака: {self.get_attack_speed()}
-Слот оружия: {slot_item}
-"""
-        return text
+Скорость атаки: {self.get_attack_speed()}
+Слот оружия: {slot_item}"""
+        info.insert(2, text)
+        return info
 
     def get_damage(self) -> Damage:
         weapon_damage: Damage = self.stats.damage

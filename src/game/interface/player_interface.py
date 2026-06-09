@@ -1,12 +1,28 @@
+from tkinter.ttk import Style
+from typing import TYPE_CHECKING, Optional
+
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from game.classes.entity.player import Player
+
+if TYPE_CHECKING:
+    from game.classes.items import Item
+    from game.classes.entity.player import Player
 
 
 class PlayerInterface:
     @staticmethod
-    def inventory(player: Player):
+    def main(player: "Player") -> tuple[str, InlineKeyboardMarkup]:
+        text = player.banner()
+        markup = InlineKeyboardMarkup(inline_keyboard=
+            [
+                [InlineKeyboardButton(text="Экипировка", callback_data="equipment.open")]
+            ]
+        )
+        return text, markup
+    
+    @staticmethod
+    def inventory(player: "Player") -> tuple[str, InlineKeyboardMarkup]:
         inventory = player.inventory
         slots = inventory.slots
         builder = InlineKeyboardBuilder()
@@ -17,7 +33,7 @@ class PlayerInterface:
                 builder.button(text=f"{item.name} x {count}", callback_data=f"inventory.open.slot.{key}")
             else:
                 builder.button(text="Пусто", callback_data=f"inventory.open_slot.{key}")
-        builder.adjust(4)
+        builder.adjust(3)
         text = "Инвентарь"
         return (text, builder.as_markup())
     

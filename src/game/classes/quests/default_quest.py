@@ -1,6 +1,8 @@
+from typing import Optional
+
 from game.classes.inventory.inventory import Inventory
 from game.classes.items.item import Item
-from server.config import loggers
+from config import loggers
 
 # from game.classes.entity import Player
 from game.classes.inventory.error_class import DontEnoughSlotsError
@@ -11,7 +13,7 @@ from . import get_clear_quests
 
 class Quest:
     all_quests = get_clear_quests()
-    def __init__(self, index: int=None, data: dict=None):
+    def __init__(self, index: Optional[int]=None, data: Optional[dict]=None):
         if data:
             self.index = index
             self.name = data.get("name")

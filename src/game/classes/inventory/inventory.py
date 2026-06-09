@@ -5,7 +5,7 @@ from game.classes.items import EquipItem
 from game.classes.items import Weapon
 from game.classes.items import Armor
 from game.classes.items import Jewelry
-from server.config import loggers
+from config import loggers
 
 from .error_class import ItemRemoveError, DontEnoughSlotsError, SlotOverloadError
 
@@ -64,17 +64,12 @@ class Inventory:
                     raise SlotOverloadError()
                 return True
         return False
-
-    def get_item(self, slot_id: int) -> Optional[tuple[Item, int]]:
-        slot = self.slots.get(slot_id)
+    
+    def get_slot(self, slot_id) -> Optional["Slot"]:
+        slot = self.slots.get(slot_id, None)
         if not slot or not slot.item:
-            loggers.inventory_logger.warning(f"Item in slot [{slot_id}] is [None]")
+            loggers.inventory_logger.warning(f"Item in slot [{slot_id}] is [None].")
             return None
-        item, count = slot.get_item()
-        if not item or count <= 0:
-            loggers.inventory_logger.warning(f"Item in slot [{slot_id}] is [None]")
-            return None
-        return (item, count)
 
     def extract_item(self, slot_id: int, extract_count: int=1) -> Optional[tuple[Item | EquipItem, int]]:
         """Extract part of item stack from inventory and return it as tuple (item, count) or None if something went wrong"""
@@ -167,6 +162,11 @@ class Slot:
     def clear_slot(self):
         self.item = None
         self.count = 0
+
+    def interface(self) -> list[str] | None:
+        if not self.item:
+            return None
+        return self.item.interface(count=self.count)
 
     def to_dict(self):
         return {

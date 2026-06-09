@@ -2,7 +2,7 @@ import logging
 import sys
 from pathlib import Path
 
-ROOT_DIR = Path(__file__).parent.parent
+from paths import ROOT_DIR
 
 def setup_logger(name: str) -> logging.Logger:
     # Создаем логгер
@@ -16,7 +16,7 @@ def setup_logger(name: str) -> logging.Logger:
     )
 
     # 1. Обработчик для записи в файл (сохраняет все сообщения от DEBUG и выше)
-    file_handler = logging.FileHandler(f"{ROOT_DIR}/logs.log", encoding='utf-8')
+    file_handler = logging.FileHandler(filename=f"{ROOT_DIR}/logs.log", encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
 
@@ -38,12 +38,14 @@ class Loggers:
         self.game = setup_logger("game.logger")
         self.game_handlers = setup_logger("handlers.game.logger")
         self.game_classes = setup_logger("game.classes.logger")
-        self.user_db_logger = setup_logger("user.db.logger")
+        self.user_db_logger = setup_logger("db.user.logger")
         self.inventory_logger = setup_logger("game.inventory.logger")
-        self.hero_creation_logger = setup_logger("hero.creation.logger")
-        self.middlewares_logger = setup_logger("middlewares.logger")
+        self.hero_creation_logger = setup_logger("game.hero_creation.logger")
+        self.middlewares_logger = setup_logger("bot_middlewares.logger")
         self.tests_logger = setup_logger("tests.logger")
-        self.quest_logger = setup_logger("quest.logger")
+        self.quest_logger = setup_logger("game.quest.logger")
         self.game_manager_logger = setup_logger("game.game_manager.logger")
         self.user_manager_logger = setup_logger("game.user_manager.logger")
         self.item_manager_logger = setup_logger("game.item_manager.logger")
+        self.interface_logger = setup_logger("game.interaface.logger")
+        self.bot_handlers = setup_logger("bot.handlers.logger")

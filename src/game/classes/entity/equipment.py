@@ -2,14 +2,14 @@ from typing import Optional
 
 from game.classes.items import *
 from game.classes.items.item import EquipItem
-from server.config import loggers
+from config import loggers
 
 
 class Equipment:
     def __init__(self, data: Optional[dict] = None):
         self.mainhand: Optional[Weapon] = Weapon(data = data.get("mainhand", {})) if data and data.get("main_weapon") else None
-        self.offhand_weapon: Optional[Weapon] = Weapon(data = data.get("offhand", {})) if data and data.get("offhand_weapon") else None
-        self.helmet = None
+        self.offhand: Optional[Weapon] = Weapon(data = data.get("offhand", {})) if data and data.get("offhand_weapon") else None
+        self.head = None
         self.body: Optional[Armor] = None
         self.legs = None
         self.boots = None
@@ -55,10 +55,10 @@ class Equipment:
             hp_buffes.update(max_health_buffes)
         return hp_buffes
 
-    def get_total_evasion(self) -> int:
+    def get_evasion(self) -> int:
         total_evasion = 0
         for slot, item in self.__dict__.items():
-            if slot not in ["helmet", "body", "legs", 
+            if slot not in ["head", "body", "legs", 
                             "boots", "gloves", "cloak"] or item is None:
                 continue
             total_evasion += item.stats.get_evasion_rating()
@@ -67,11 +67,14 @@ class Equipment:
     def get_armor(self) -> int:
         total_armor = 0
         for slot, item in self.__dict__.items():
-            if slot not in ["helmet", "body", "legs", 
+            if slot not in ["head", "body", "legs", 
                             "boots", "gloves", "cloak"] or item is None:
                 continue
             total_armor += item.stats.get_armor_rating()
         return total_armor
+    
+    def get_equipment(self) -> dict:
+        return self.__dict__
 
     def to_dict(self) -> dict:
         """Return dictionary with equiped items
@@ -81,8 +84,8 @@ class Equipment:
         """
         return {
             "mainhand": self.mainhand.to_dict() if self.mainhand else None,
-            "offhand": self.offhand_weapon.to_dict() if self.offhand_weapon else None,
-            "helmet": self.helmet.to_dict() if self.helmet else None,
+            "offhand": self.offhand.to_dict() if self.offhand else None,
+            "head": self.head.to_dict() if self.head else None,
             "body": self.body.to_dict() if self.body else None,
             "legs": self.legs.to_dict() if self.legs else None,
             "boots": self.boots.to_dict() if self.boots else None,

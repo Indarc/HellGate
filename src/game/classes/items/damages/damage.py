@@ -11,6 +11,9 @@ class Damage:
         self.cold = ColdDamage(data.get("cold", 0))
         self.lightning = LightningDamage(data.get("lightning", 0))
     
+    def interface(self) -> str:
+        return f"❣️{self.physical.get_value()} 🔥{self.fire.get_value()} ❄️{self.cold.get_value()} ⚡️{self.lightning.get_value()}"
+
     def to_dict(self) -> dict:
         return {
             "physical": self.physical.get_value(),

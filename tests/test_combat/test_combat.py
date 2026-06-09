@@ -35,7 +35,7 @@ def make_weapon(physical: int = 0, fire: int = 0, cold: int = 0, lightning: int 
     }
     return Weapon(weapon_dict)
 
-def make_armor(armor: int=0):
+def make_armor(armor: int=0, evasion: int=0):
     armor_dict = {
         "item_type": "armor",
         "id": 2,
@@ -48,6 +48,7 @@ def make_armor(armor: int=0):
         "emoji": "👘",
         "stats": {
             "armor": armor,
+            "evasion": evasion
         },
         "equip_requirements": {
             "level": 1
@@ -79,7 +80,6 @@ class TestCombat:
         attack_result = self.combat_manager.atack(attacker=self.entity_one, target=self.entity_two)
         assert self.entity_two.get_health() == start_hp - attack_result.damage
 
-
     def test_fire_atack(self):
         weapon = make_weapon(fire=10)
         self.entity_one.equip_item(weapon)
@@ -94,3 +94,15 @@ class TestCombat:
         start_hp = self.entity_two.get_health()
         attack_result = self.combat_manager.atack(attacker=self.entity_one, target=self.entity_two)
         assert self.entity_two.get_health() == start_hp - attack_result.damage
+    
+    def test_evasion_chance(self):
+        weapon = make_weapon(physical=10)
+        self.entity_one.equip_item(weapon)
+        self.entity_two.characteristics.tracking_attributes.agility = 10
+        attack_result = self.entity_one.attack(self.entity_two)
+        assert attack_result.evaded == True
+
+        armor = make_armor(evasion=100)
+        self.entity_two.equip_item(armor)
+        attack_result = self.entity_one.attack(self.entity_two)
+        assert attack_result.evaded == False

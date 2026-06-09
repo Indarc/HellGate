@@ -2,7 +2,7 @@ from typing import Optional
 
 from game.classes.inventory import DontEnoughSlotsError
 from game.classes.items import EquipItem
-from server.config import loggers
+from config import loggers
 
 from .entity import Entity
 from game.classes.quests.default_quest import Quest
@@ -22,13 +22,13 @@ class Player(Entity):
         exp = self.level.get_experience()
         text = f"""
 ┌────── ▰▰☆▰▰ ──────┐
- ───❤️HP: {self.characteristics.health}/{self.get_max_health()}
+ ───❤️HP: {self.get_health()}/{self.get_max_health()}
  ───Имя: {self.name}
- ───Уровень: {self.level.get_level()}
+ ───Уровень: {self.get_level()}
  ───Опыт: {exp[0]}/{exp[1]}
 
- ───⚔️Урон: {self.get_damage().to_dict()}
- ───🛡️Броня: {self.get_armor()}
+ ───⚔️Урон: {self.get_damage().interface()}
+ ───🛡️Броня: {self.get_armor_rating()}
  ───👟Уклонение: {self.get_evasion_rating()}
  ───🎯Точность: {self.get_accuracy_rating()}
 

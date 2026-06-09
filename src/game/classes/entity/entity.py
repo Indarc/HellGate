@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from game.classes.items.damages import Damage
-from server.config import loggers
+from config import loggers
 
 from .equipment import Equipment
 from .characteristicts import Level, Attributes, Characteristics
@@ -9,6 +9,9 @@ from game.classes.inventory.error_class import DontEnoughSlotsError
 from game.classes.inventory.inventory import Inventory
 from game.classes.items.item import EquipItem
 from game.classes.items import *
+
+if TYPE_CHECKING:
+    from game.manager import AttackResult
 
 
 class Entity:
@@ -93,7 +96,20 @@ class Entity:
         return self.characteristics.get_evasion_rating()
     
     def get_hit_chance(self, enemy: "Entity") -> float:
-        return self.characteristics.get_hit_chance(enemy)
+        enemy_evasion = enemy.get_evasion_rating()
+        self_accuracy = self.get_accuracy_rating()
+        if enemy_evasion == 0:
+            return 100.0
+        hit_chance = self_accuracy / (enemy_evasion / 100)
+        return hit_chance
+
+    def try_evade(self, attacker: "Entity") -> bool:
+        from random import  randint
+        hit_chance = attacker.get_hit_chance(self)
+        rnd = randint(0, 101)
+        if hit_chance >= rnd:
+            return True
+        return False
 
     def add_experience(self, exp: int) -> None:
         self.level.add_exp(exp)
@@ -101,18 +117,21 @@ class Entity:
     def check_alive(self) -> bool:
         return self.characteristics.check_alive()
 
-    def attack(self, target: "Entity") -> tuple[bool, int]:
+    def attack(self, target: "Entity") -> "AttackResult":
+        from game.manager import AttackResult
         weapon = self.equipment.get_equip("mainhand")
         if not weapon or not isinstance(weapon, Weapon):
-            return (True, 0)
+            return AttackResult()
+        evade_status = target.try_evade(self)
+        if evade_status:
+            return AttackResult(evaded=True)
         return target.take_damage(weapon)
 
-    def take_damage(self, weapon: Weapon) -> tuple[bool, int]:
-        "Return alive status and taken damage ([bool], [int])"
+    def take_damage(self, weapon: Weapon) -> "AttackResult":
         # TODO evasion chance
         # TODO поломка снаряжения
-        damage_taken = self.characteristics.take_damage(weapon)
-        return (self.check_alive(), damage_taken)
+        attack_result = self.characteristics.take_damage(weapon)
+        return attack_result
 
     def battle_banner(self, enemy: "Entity") -> str:
         text = f"""

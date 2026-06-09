@@ -1,6 +1,6 @@
 
 from .attributes import Attributes
-from server.config import loggers
+from config import loggers
 
 
 class Level:

@@ -18,18 +18,14 @@ class Item: # base class for all items
         self.emoji: str = data.get("emoji", "❔")
         self.stacked: bool = data.get("stacked", False)
     
-    def banner(self, count: int) -> str:
-        text = f"""
-{self.emoji if self.emoji else '❔'}{self.name}
-👜 Колличество: {count}
-----------------------------------
-⭐ Редкость: {self.rarity.capitalize()}
-💰 Цена: {self.cost} монет
-----------------------------------
-💬 Описание:
-{self.description}
-"""
-        return text
+    def interface(self, count: int) -> list[str]:
+        info = [
+            f"{self.emoji if self.emoji else '❔'}{self.name}",
+            f"⭐ Редкость: {self.rarity.capitalize()}\n💰 Цена: {self.cost} монет",
+            f"💬 Описание:\n{self.description}",
+            f"👜 Колличество: {count}"
+        ]
+        return info
 
     def to_dict(self) -> dict:
         return {

@@ -2,6 +2,8 @@ import asyncio
 import sys
 
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
+
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -9,14 +11,7 @@ from tortoise import Tortoise
 
 from paths import ROOT_DIR, RESOURCES_DIR
 
-from server.loggers import Loggers
-
-# DB and User model imports are deferred until after loggers instantiation to avoid circular
-# imports. They will be imported later before creating user_db.
-
-# manager imports are delayed until after loggers instantiation to prevent circular imports
-
-
+from loggers import Loggers
 
 
 messages = {
@@ -49,8 +44,9 @@ DB_URL = f"{config.CONN.get_secret_value()}://{config.POSTGRES_USER.get_secret_v
 
 loggers.config.info("Start connecting bot")
 try:
+    storage = MemoryStorage()
     bot = Bot(config.BOT_TOKEN.get_secret_value())
-    dp = Dispatcher()
+    dp = Dispatcher(storage=storage)
     loggers.config.info("Bot connection successed")
 except Exception as ex:
     loggers.config.error(f"Bot connection refused. Error: {ex}")
@@ -84,6 +80,11 @@ async def shutdown():
     try:
         await asyncio.sleep(0.5)
         await game_manager.user_manager.save_data()
+        await asyncio.sleep(0.5)
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        loggers.main.warning("Agree! Araising database is on.")
+        await user_db.araise_database()
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         await asyncio.sleep(0.5)
         await Tortoise.close_connections()
         loggers.config.info("Connections closed")

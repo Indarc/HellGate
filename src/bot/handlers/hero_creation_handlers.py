@@ -1,17 +1,15 @@
-from ast import In
-
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.fsm.context import FSMContext
 
-from server.config import game_manager
-from server.bot.keyboards.builders import accept_nickname
-from server.bot.handlers.catch import Catch
-from server.config import loggers
+from bot.keyboards.builders import accept_nickname
+from bot.handlers.catch import Catch
+from config import loggers
 
+from game import game_manager
 from game.classes.entity import Player
 from game.classes.entity import User
-from game.quests.guide_line import GuideLine
+from game.classes.quests.guide_line import GuideLine
 
 
 router = Router(name="hero_creation.handler")
@@ -41,7 +39,7 @@ async def nickname_catch(message: Message, state: FSMContext):
     
     user_input= str(data.get("message"))
     user_input = clear_string(user_input)
-    nicknames.setdefault(message.chat.id, user_input)
+    nicknames.update({message.chat.id: user_input})
 
     markup, text = accept_nickname()
     await message.answer(f"Ваш никнейм: {user_input}\n" + text, reply_markup=markup)
@@ -56,11 +54,11 @@ async def save_nickname(callback: CallbackQuery, state: FSMContext):
 
     await game_manager.user_manager.save_user(user)
 
-    text = f"Теперь тебе можно пройти обучение, которое поможет разобраться в механиках игры: инвентарь, экипировка, бой, классы и так далее.\nНе переживай, обучение не займет много времени, а после него ты сможешь свободно играть и наслаждаться процессом. Нажимай на кнопку ниже, чтобы начать обучение!"
+    text = f"Теперь ты можешь пройти обучение, которое поможет тебе разобраться в механиках игры: инвентарь, экипировка, бой, классы и так далее.\nНе переживай, обучение не займет много времени, а после него ты сможешь свободно играть и наслаждаться процессом. Нажимай на кнопку ниже, чтобы начать обучение!"
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="Начать", callback_data="start.guide", style="success"),
-             InlineKeyboardButton(text="Пропустить", callback_data="skip.guide", style="primary")]
+             InlineKeyboardButton(text="Пропустить", callback_data="start.game", style="primary")]
         ]
     )
     await callback.message.edit_text(text=text, reply_markup=markup)

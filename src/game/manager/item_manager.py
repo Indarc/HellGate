@@ -6,7 +6,7 @@ from typing import Optional
 
 from game.classes.items import *
 
-from server.config import loggers
+from config import loggers
 
 
 class ItemManager:
@@ -16,6 +16,7 @@ class ItemManager:
             "weapon": Weapon,
             "armor": Armor,
             "jewelry": Jewelry,
+            "bag": Bag,
             "another": Item
         }
         self.items: dict[int, Item] = self.__load_items()
@@ -63,9 +64,10 @@ class ItemManager:
                     if not item_type:
                         loggers.game.warning(f"Item type not found in file {path}")
                         continue
-                    if item_type != group_type:
-                        loggers.game.warning(f"Item type mismatch: {item_type} != {group_type} in file {path}")
-                        continue
+                    if group_type != "another":
+                        if item_type != group_type and item_type not in self.item_classes.keys():
+                            loggers.game.warning(f"Item type mismatch: {item_type} != {group_type} in file {path}")
+                            continue
                     item_class = self.item_classes.get(item_type)
                     if not item_class:
                         loggers.game.warning(f"Undefined item type: {item_type} in file {path}")

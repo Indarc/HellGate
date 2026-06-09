@@ -1,4 +1,6 @@
-from server.config import RESOURCES_DIR, user_db
+from aiogram import Router
+
+from config import RESOURCES_DIR, user_db
 
 from .manager import GameManager, UserManager, CombatManager, QuestManager, ItemManager
 

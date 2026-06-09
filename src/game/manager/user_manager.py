@@ -2,7 +2,7 @@ from typing import Optional
 
 from db.executor import DB
 from game.classes.entity.user_class import User
-from server.config import ROOT_DIR, loggers
+from config import ROOT_DIR, loggers
 
 
 PLAYERS_TEMP_FOLDER = ROOT_DIR / "game" / "temp" / "players"

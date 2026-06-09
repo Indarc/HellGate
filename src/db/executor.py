@@ -1,15 +1,16 @@
+from ast import Delete
 from logging import Logger
 from typing import Optional, Type, TYPE_CHECKING
 
 from db.models.user import UserModel, UserShema
-from server.config import loggers
+from config import loggers
 
 if TYPE_CHECKING:
     from game.classes.entity.user_class import User as app_user
 
 
 class DB:
-    def __init__(self, tracking_database: Type, logger: Logger):
+    def __init__(self, tracking_database: UserModel, logger: Logger):
         self.tracking_database = tracking_database
         self.logger = logger
     
@@ -45,9 +46,5 @@ class DB:
         else:
             await self.add(user_object.id, user_object)
     
-    async def clear_database(self) -> bool:
-        all_users = await self.tracking_database.all()
-        for user in all_users:
-            await user.delete()
-        return True
-    
+    async def araise_database(self, token=None):
+        await self.tracking_database.all().delete()

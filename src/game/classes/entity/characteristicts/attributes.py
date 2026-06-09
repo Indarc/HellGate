@@ -1,7 +1,7 @@
 
 from typing import Optional
 
-from server.config import loggers
+from config import loggers
 
 
 

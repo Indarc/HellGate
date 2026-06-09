@@ -1,9 +1,7 @@
-from turtle import st
-
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from game.classes.entity.user_class import User
-from server.config import messages, game_manager
+from game.classes.entity import User
+from config import messages
 
 
 def welcome_markup() -> tuple[InlineKeyboardMarkup, str]:

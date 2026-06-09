@@ -1,6 +1,6 @@
 from typing import Optional, TYPE_CHECKING
 
-from server.config import loggers
+from config import loggers
 
 if TYPE_CHECKING:
     from .player import Player
