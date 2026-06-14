@@ -16,9 +16,9 @@ class Level:
     def get_experience(self) -> tuple[int, int]:
         return (self.experience, self.max_experience)
 
-    def lvl_up(self):
+    def lvl_up(self, count: int = 1):
         # remnant = self.max_experience - self.experience
-        self.level += 1
+        self.level += count
         self.experience = (self.experience - self.max_experience) if self.experience >= self.max_experience else self.experience # to absorb error with extra lvl_up
         self.max_experience = self.level * 10
         self.tracking_attributes.add_upgrade_points(3)

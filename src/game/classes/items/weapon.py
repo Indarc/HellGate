@@ -6,9 +6,9 @@ from .damages import Damage
 
 class Weapon(EquipItem):
     """Class for weapon items"""
-    def __init__(self, data: dict):
+    def __init__(self, data: Optional[dict]=None):
         super().__init__(data=data)
-        self.stats = WeaponStats(data.get("stats", {}))
+        self.stats = WeaponStats(data.get("stats", {})) if data else WeaponStats()
     
     def interface(self, count: int):
         info = super().interface(count=count)
@@ -47,27 +47,28 @@ class Weapon(EquipItem):
 
     def to_dict(self) -> dict:
         item_dict = super().to_dict()
-        item_dict.update(_="weapon")
         weapon_dict = {
-            "stats":self.stats.to_dict(),
-            "slot": self.slot, # main hand / off hand
+            "stats":self.stats.to_dict()
         }
         item_dict.update(weapon_dict)
         return item_dict
 
 
 class WeaponStats(EquipItemStats):
-    def __init__(self, stats: dict):
+    def __init__(self, stats: Optional[dict]=None):
         super().__init__(stats)
-        self.damage = Damage(stats.get("damage", {}))
-        self.crit: float = stats.get("crit", 0.0)
-        self.crit_multy: float = stats.get("crit_multy", 0.0)
-        self.attack_speed: float = stats.get("attack_speed", 0.0)
+        self.damage = Damage(stats.get("damage", {})) if stats else Damage()
+        self.crit: float = stats.get("crit", 0.0) if stats else 0.0
+        self.crit_multy: float = stats.get("crit_multy", 0.0) if stats else 0.0
+        self.attack_speed: float = stats.get("attack_speed", 0.0) if stats else 0.0
     
     def to_dict(self):
-        return {
+        stats_dict = super().to_dict()
+        stats = {
             "damage": self.damage.to_dict(),
             "crit": self.crit,
             "crit_multy": self.crit_multy,
             "attack_speed": self.attack_speed
         }
+        stats_dict.update(stats)
+        return stats_dict

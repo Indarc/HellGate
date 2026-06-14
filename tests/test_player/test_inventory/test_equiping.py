@@ -6,8 +6,8 @@ from game.classes.items import *
 
 def make_weapon(name: str = "Sword of Testing", damage: int = 10, equip_requirements: dict= {"level": 1}) -> Weapon:
     weapon_dict = {
-        "item_type": "weapon",
-        "id": 1,
+        "type": "weapon",
+        "identificator": "test_sword",
         "name": name,
         "rare": "rare",
         "cost": 100,
@@ -39,7 +39,7 @@ def make_weapon(name: str = "Sword of Testing", damage: int = 10, equip_requirem
 
 def make_armor():
     armor_dict = {
-        "item_type": "armor",
+        "type": "armor",
         "id": 2,
         "name": "Test Armor",
         "rare": "common",

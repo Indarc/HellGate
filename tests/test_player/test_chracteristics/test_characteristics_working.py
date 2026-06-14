@@ -9,7 +9,7 @@ from game.classes.items import Armor
 
 def create_armor():
     armor_dict = {
-        "item_type": "armor",
+        "type": "armor",
         "id": 2,
         "name": "Test Armor",
         "rare": "common",

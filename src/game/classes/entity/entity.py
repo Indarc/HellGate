@@ -19,12 +19,17 @@ class Entity:
         if not name and not data:
             loggers.game_classes.error("[ENTITY_INIT] Entity object requered paramateres to initializating")
             return
+        self.base_hp = data.get("base_hp", 20) if data else 20
         self.entity_type = data.get("entity_type", "entity") if data else "entity"
         self.name: str = data.get("name", "Unknow") if data else name if name else "Unknow"
-        self.inventory = Inventory(data=data.get("inventory")) if data else Inventory()
-        self.attributes: Attributes = Attributes(data=data.get("attributes")) if data else Attributes()
-        self.equipment: Equipment = Equipment(data=data.get("equipment")) if data else Equipment()
-        self.characteristics: Characteristics = Characteristics(self.attributes, self.equipment, data.get("resistances", {}) if data else {})
+        self.inventory = Inventory(data=data.get("inventory", None)) if data else Inventory()
+        self.attributes: Attributes = Attributes(data=data.get("attributes", None)) if data else Attributes()
+        self.equipment: Equipment = Equipment(data=data.get("equipment", None)) if data else Equipment()
+        self.characteristics: Characteristics = Characteristics(
+            self.attributes,
+            self.equipment,
+            data.get("resistances", {}) if data else {},
+            base_hp=self.base_hp)
         self.level: Level = Level(data=data.get("level", {}), tracking_attributes=self.attributes) if data else Level(tracking_attributes=self.attributes)
 
     def equip_item(self, item: Optional[EquipItem]=None, slot_id: Optional[int]=None) -> bool:
@@ -46,18 +51,16 @@ class Entity:
         requirements_status = item_to_equip.equip_requirements.check_entity_attributes(self)
         if not requirements_status:
             # TODO send message to player about characteristics requirements
-            loggers.game_classes.debug(f"Player doesn't meet the requirements for equipping item id {item_to_equip.id} and requirements {item_to_equip.equip_requirements}")
+            loggers.game_classes.debug(f"Player doesn't meet the requirements for equipping item id {item_to_equip.identificator} and requirements {item_to_equip.equip_requirements}")
             return False
         # 2
-        previos_equiped_item = self.equipment.get_equip(item_to_equip.slot)
+        previos_equiped_item = self.equipment.equip_item(item_to_equip)
         if previos_equiped_item:
             try:
                 self.inventory.add_item(previos_equiped_item)
-            except DontEnoughSlotsError as e:
+            except DontEnoughSlotsError:
                 # TODO send message to player about inventory full
                 return False
-        #
-        self.equipment.equip_item(item_to_equip)
         return True
     
     def unequip_item(self, slot: str) -> bool:
@@ -150,9 +153,9 @@ class Entity:
         return {
             "_": "Entity",
             "name": self.name,
+            "base_hp": self.base_hp,
             "inventory": self.inventory.to_dict(),
             "attributes": self.attributes.to_dict(),
             "equipment": self.equipment.to_dict(),
-            "characteristics": self.characteristics.to_dict(),
             "level": self.level.to_dict(),
         }

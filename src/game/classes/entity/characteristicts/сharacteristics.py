@@ -14,17 +14,17 @@ if TYPE_CHECKING:
 
 class Characteristics:
     """Класс для брони, урона, уклонения и тп"""
-    def __init__(self, tracking_attributes: Attributes, tracking_equipment: Equipment, resistances: dict) -> None:
+    def __init__(self, tracking_attributes: Attributes, tracking_equipment: Equipment, resistances: dict, base_hp: int = 20) -> None:
         self.tracking_attributes = tracking_attributes
         self.tracking_equipment = tracking_equipment
         self.resistances = Resistances(resistances)
-        self.health: float = self.get_max_health()
+        self.health: float = self.get_max_health(base_hp)
 
     def get_health(self) -> float:
         return self.health
 
-    def get_max_health(self) -> float:
-        default_hp = 20
+    def get_max_health(self, base_hp: int=20) -> float:
+        base_hp = base_hp
         hp_from_strength = self.tracking_attributes.get_health_from_strength()
         hp_equipment_buffes = self.tracking_equipment.get_health_buff()
         additional_hp = 0
@@ -33,7 +33,7 @@ class Characteristics:
                 additional_hp += value * Attributes.streng_hp_multiplicator
             elif stat == "max_health":
                 additional_hp += value
-        total_hp = default_hp + hp_from_strength + additional_hp
+        total_hp = base_hp + hp_from_strength + additional_hp
         return total_hp
     
     def get_weapon_damage(self) -> Damage:

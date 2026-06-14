@@ -1,0 +1,19 @@
+{
+    "id": 0,
+    "identificator": "forest",
+    "name": "Лесная чаща",
+    "zones": {
+        "0": {
+            "name": "Поляна слизней",
+            "enemy": ["slime"]
+        },
+        "1": {
+            "name": "Лесная чаща",
+            "enemy": ["slime", "goblin_archer"]
+        },
+        "2": {
+            "name": "Темная пещера",
+            "enemy": ["goblin_warrior", "goblin_archer", "goblin_king"]
+        }
+    }
+}

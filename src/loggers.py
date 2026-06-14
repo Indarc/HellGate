@@ -35,10 +35,11 @@ class Loggers:
     def __init__(self):
         self.main = setup_logger("main.logger")
         self.config = setup_logger("config.logger")
+        self.user_db_logger = setup_logger("db.user.logger")
+        self.items_db_logger = setup_logger("db.items.logger")
         self.game = setup_logger("game.logger")
         self.game_handlers = setup_logger("handlers.game.logger")
         self.game_classes = setup_logger("game.classes.logger")
-        self.user_db_logger = setup_logger("db.user.logger")
         self.inventory_logger = setup_logger("game.inventory.logger")
         self.hero_creation_logger = setup_logger("game.hero_creation.logger")
         self.middlewares_logger = setup_logger("bot_middlewares.logger")

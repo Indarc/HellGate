@@ -1,6 +1,7 @@
 {
     "item_type": "weapon",
     "id": 0,
+    "identificator": "rusty_sword",
     "name": "Ржавый меч",
     "rare": "common",
     "cost": 0.0,

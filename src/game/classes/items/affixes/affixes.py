@@ -6,7 +6,7 @@ from .prefix import Prefix
 
 
 class Affixes:
-    def __init__(self, affixes: dict, item_rarity: str) -> None:
+    def __init__(self, affixes: Optional[dict]=None, item_rarity: str="common") -> None:
         if item_rarity == "magic":
             self.max_affixes = 2
         elif item_rarity == "rare":
@@ -15,6 +15,8 @@ class Affixes:
             self.max_affixes = 3
         else:
             self.max_affixes = 1
+        if not affixes:
+            return
         prefixes_dict: dict = affixes.get("prefixes", {})
         suffixes_dict: dict = affixes.get("suffixes", {})
         prefixes = [Prefix(x, y) for x, y in prefixes_dict.items()]

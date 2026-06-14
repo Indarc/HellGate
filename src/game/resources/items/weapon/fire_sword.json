@@ -1,14 +1,16 @@
 {
     "item_type": "weapon",
     "id": 4,
+    "identificator": "fire_sword",
     "name": "Огненный меч",
-    "rare": "magic",
+    "rare": "legendary",
     "cost": 0.0,
-    "description": "Старый и ржавый меч, который не может нанести серьезного урона. Его можно найти в заброшенных местах или у побежденных врагов.",
+    "description": "Легендарный огненный меч, который сжигает все на своём пути.",
     "stacked": false,
     "stats": {
         "damage": {
-            "physical": 5
+            "physical": 5,
+            "fire": 10
         },
         "crit": 30.0,
         "crit_multy": 3.0,

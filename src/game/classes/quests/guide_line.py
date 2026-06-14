@@ -4,6 +4,7 @@ from aiogram import Router, F
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from asyncpg import FatalPostgresError
 
 if TYPE_CHECKING:
     from game.classes.entity.player import Player
@@ -63,12 +64,15 @@ async def guide_step(callback: CallbackQuery, state: FSMContext):
     elif current_step == "4":
         await guideline.weapon_equip_guide(user.player)
     elif current_step == "5":
-        await guideline.equipment_interface(user.player)
+        await guideline.equipment_interface_guide(user.player)
     elif current_step == "6":
-        pass
-    elif current_step == "0":
+        await guideline.guideline_end(user.player)
+    elif current_step == "end":
         await state.clear()
-        # stop guide line
+        guide_lines.pop(str(callback.from_user.id))
+    else:
+        loggers.quest_logger.warning(f"Uncorrect guide line step: {current_step}")
+        return
 
 
 class GuideLine:
@@ -88,7 +92,7 @@ class GuideLine:
     
     async def open_item_guide(self):
         from game import game_manager
-        weapon = game_manager.item_manager.get_item(0)
+        weapon = await game_manager.item_manager.get("rusty_sword")
         if not weapon:
             loggers.quest_logger.error(f"Weapon with ID 0 not found for guide line.")
             return
@@ -144,7 +148,7 @@ class GuideLine:
         new_markup = self.change_markup(markup, callback_state=self.callback + ".5")
         await self.message.edit_text(text=text, reply_markup=new_markup)
 
-    async def equipment_interface(self, player: "Player"):
+    async def equipment_interface_guide(self, player: "Player"):
         text, markup = PlayerInterface.equipment(player)
         text = """
 Это ваша экипировка. Чтобы заменить или снять предмет нужно на него нажать далее снять или заменить.
@@ -153,14 +157,34 @@ class GuideLine:
         new_markup = self.change_markup(markup, callback_state=self.callback + ".6")
         await self.message.edit_text(text=text, reply_markup=new_markup)
 
+    async def guideline_end(self, player: "Player"):
+        text = """
+Обучение закончено!
+Теперь можете начать исследовать мир.
+"""
+        markup = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [InlineKeyboardButton(text="Продолжить", style="primary", callback_data=self.callback + ".end")]
+            ]
+        )
+        await self.message.edit_text(text=text, reply_markup=markup)
+
     def change_markup(self, markup: InlineKeyboardMarkup, callback_state: str) -> InlineKeyboardMarkup:
         new_inline_keyboard = []
         for row in markup.inline_keyboard:
             new_row = []
             for button in row:
-                new_row.append(InlineKeyboardButton(
-                    text=button.text,
-                    callback_data=callback_state  # или какой-то другой callback
-                ))
+                if button.model_extra:
+                    button_style = button.model_extra.get("style")
+                    new_row.append(InlineKeyboardButton(
+                                    text=button.text,
+                                    callback_data=callback_state,  # или какой-то другой callback
+                                    style=button_style
+                                ))
+                else:
+                    new_row.append(InlineKeyboardButton(
+                                    text=button.text,
+                                    callback_data=callback_state,  # или какой-то другой callback
+                                ))
             new_inline_keyboard.append(new_row)
         return InlineKeyboardMarkup(inline_keyboard=new_inline_keyboard)

@@ -1,5 +1,6 @@
 import asyncio
 import sys
+from typing import Awaitable
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -37,10 +38,10 @@ class Config(BaseSettings):
     )
 
 
-config = Config()
+config = Config()  # type: ignore[call-arg]
 loggers = Loggers()
 
-DB_URL = f"{config.CONN.get_secret_value()}://{config.POSTGRES_USER.get_secret_value()}:{config.POSTGRES_PASSWORD.get_secret_value()}@{config.POSTGRES_HOST.get_secret_value()}:{config.POSTGRES_PORT.get_secret_value()}/{config.POSTGRES_DB.get_secret_value()}"
+# DB_URL = f"{config.CONN.get_secret_value()}://{config.POSTGRES_USER.get_secret_value()}:{config.POSTGRES_PASSWORD.get_secret_value()}@{config.POSTGRES_HOST.get_secret_value()}:{config.POSTGRES_PORT.get_secret_value()}/{config.POSTGRES_DB.get_secret_value()}"
 
 loggers.config.info("Start connecting bot")
 try:
@@ -55,16 +56,21 @@ except Exception as ex:
 
 # создание инструмента для работы с DB
 # import DB and User model now that loggers is available
-from db.executor import DB
-from db.models.user import UserModel
+from db import executor, UserModel, ItemsModel
 
-user_db = DB(tracking_database=UserModel, logger=loggers.user_db_logger)
+user_db = executor.UserDB(tracking_database=UserModel, logger=loggers.user_db_logger)
+items_db = executor.ItemsDB(tracking_database=ItemsModel, logger=loggers.items_db_logger)
 
 async def init_db():
     try:
         await Tortoise.init(config=TORTOISE_ORM)
-        loggers.config.info("✔️ Tortoise connection successed")
-
+        try:
+            conn = Tortoise.get_connection(connection_name="default")
+            await conn.execute_query("SELECT 1")
+            loggers.config.info("✔️ Tortoise connection successed")
+        except Exception as e:
+            loggers.config.error(f"❌ Tortoise connection error: {e}")
+            return e
         # Проверка, что модели загружены
         models = Tortoise.apps.get("models")
         if not models:
@@ -82,10 +88,10 @@ async def shutdown():
         await game_manager.user_manager.save_data()
         await asyncio.sleep(0.5)
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        loggers.main.warning("Agree! Araising database is on.")
-        await user_db.araise_database()
+        # loggers.main.warning("Agree! Araising database is on.")
+        # await user_db.araise_database()
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        await asyncio.sleep(0.5)
+        # await asyncio.sleep(0.5)
         await Tortoise.close_connections()
         loggers.config.info("Connections closed")
         await asyncio.sleep(0.5)
@@ -97,11 +103,12 @@ async def shutdown():
         await asyncio.sleep(0.5)
 
 TORTOISE_ORM = {
-    "connections": {"default": DB_URL},
+    "connections": {"default": config.DB_URL.get_secret_value()},
     "apps": {
         "models": {
             "models": [
                 "db.models.user",
+                "db.models.items",
                 "db.models.test_user",
                 "aerich.models"
             ],

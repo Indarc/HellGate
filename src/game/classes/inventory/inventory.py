@@ -41,11 +41,11 @@ class Inventory:
             # TODO send message to player about that
             raise DontEnoughSlotsError()
         for i, slot in self.slots.items():
-            if item.stacked and slot.item and slot.item.id == item.id:
+            if item.stacked and slot.item and slot.item.identificator == item.identificator:
                 try:
                     self.slots[i].add_item(item=item, count=count)
                 except SlotOverloadError as e:
-                    loggers.inventory_logger.warning(f"Failed to add item with id {item.id} to slot [{i}] because of {e.value}")
+                    loggers.inventory_logger.warning(f"Failed to add item with id {item.identificator} to slot [{i}] because of {e.value}")
                     # TODO send message to player about that
                     raise SlotOverloadError()
                 return True
@@ -59,7 +59,7 @@ class Inventory:
                     self.slots[i].add_item(item=item, count=count)
                     self.space -= 1
                 except SlotOverloadError as e:
-                    loggers.inventory_logger.warning(f"Failed to add item with id {item.id} to slot [{i}] because of {e.value}")
+                    loggers.inventory_logger.warning(f"Failed to add item with id {item.identificator} to slot [{i}] because of {e.value}")
                     # TODO send message to player about that
                     raise SlotOverloadError()
                 return True
@@ -141,7 +141,7 @@ class Slot:
             self.count = count
     
     def add_item(self, item: Item, count: int = 1) -> bool:
-        if self.item and self.item.id == item.id and item.stacked:
+        if self.item and self.item.identificator == item.identificator and item.stacked:
             if self.count + count > self.max_count:
                 raise SlotOverloadError()
             self.count += count
@@ -153,7 +153,7 @@ class Slot:
             self.count = count
             return True
         else:
-            loggers.inventory_logger.warning(f"Trying to add item with id {item.id} to slot [{self.slot_index}] which already has different item with id {self.item.id}")
+            loggers.inventory_logger.warning(f"Trying to add item with id {item.identificator} to slot [{self.slot_index}] which already has different item with id {self.item.identificator}")
             return False
 
     def get_item(self) -> tuple[Optional["Item"], int]:

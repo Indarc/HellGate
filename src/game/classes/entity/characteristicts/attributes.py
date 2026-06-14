@@ -21,6 +21,11 @@ class ReturnAttributes:
     def get_intelligence(self):
         return self.intelligence
 
+    def set(self, agility: Optional[int]=None, strength: Optional[int]=None, intelligence: Optional[int]=None):
+        self.agility = agility if agility is not None else self.agility
+        self.strength = strength if strength is not None else self.strength
+        self.intelligence = intelligence if intelligence is not None else self.intelligence
+
 class Attributes(ReturnAttributes):
     streng_hp_multiplicator = 5
     def __init__(self, agility: int=3, strength: int=3, intelligence: int=3, data: Optional[dict]=None):

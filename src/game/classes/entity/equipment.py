@@ -9,6 +9,7 @@ class Equipment:
     def __init__(self, data: Optional[dict] = None):
         self.mainhand: Optional[Weapon] = Weapon(data = data.get("mainhand", {})) if data and data.get("main_weapon") else None
         self.offhand: Optional[Weapon] = Weapon(data = data.get("offhand", {})) if data and data.get("offhand_weapon") else None
+        self.twohand: Optional[Weapon] = Weapon(data = data.get("twohand", {})) if data and data.get("offhand_weapon") else None
         self.head = None
         self.body: Optional[Armor] = None
         self.legs = None
@@ -21,25 +22,33 @@ class Equipment:
         self.amulet = None
         self.bag: Optional[Bag] = Bag(data=data.get("bag", {})) if data and data.get("bag") else None
 
-    def equip_item(self, item: EquipItem) -> bool:
-        # TODO проверка характеристик для экипировки
-
-        if item.item_type not in ["weapon", "armor", "jewelry", "bag"]:
+    def equip_item(self, item: EquipItem) -> Optional[EquipItem]:
+        if item.type not in ["weapon", "armor", "jewelry", "bag"]:
             loggers.game_classes.error(f"Undefined item type {type(item)} to equiping")
-            return False
+            return
         if not isinstance(item, (Weapon, Armor, Jewelry, Bag)):
             loggers.game_classes.error(f"Undefined item class {type(item)} to equiping")
-            return False
-        
+            return
+        previos_equiped_item = self.unequip_item(slot=item.slot)
+        if item.type == "weapon":
+            item_slot = item.slot
+            if item_slot == "twohand":
+                mainhand_weapon = self.get_equip(slot="mainhand")
+                if mainhand_weapon:
+                    previos_equiped_item = self.unequip_item(slot="mainhand")
+            elif item_slot == "mainhand" or item_slot == "offhand":
+                twohand_weapon = self.get_equip(slot="twohand")
+                if twohand_weapon:
+                    previos_equiped_item = self.unequip_item(slot="twohand")
         setattr(self, item.slot, item)
-        return True
+        return previos_equiped_item
 
-    def unequip_item(self, slot_type: str) -> Optional[EquipItem]:
-        item: EquipItem | None = self.get_equip(slot_type)
+    def unequip_item(self, slot: str) -> Optional[EquipItem]:
+        item: EquipItem | None = self.get_equip(slot)
         if not item:
             return None # raise empty slot exception
         
-        setattr(self, slot_type, None)
+        setattr(self, slot, None)
         return item
     
     def get_equip(self, slot: str) -> Optional[EquipItem]:
@@ -85,6 +94,7 @@ class Equipment:
         return {
             "mainhand": self.mainhand.to_dict() if self.mainhand else None,
             "offhand": self.offhand.to_dict() if self.offhand else None,
+            "twohand": self.twohand.to_dict() if self.twohand else None,
             "head": self.head.to_dict() if self.head else None,
             "body": self.body.to_dict() if self.body else None,
             "legs": self.legs.to_dict() if self.legs else None,

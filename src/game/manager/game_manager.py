@@ -1,9 +1,9 @@
 from game.classes.inventory.error_class import DontEnoughSlotsError, SlotOverloadError
 from game.classes.items.item import Item
-from game.manager.item_manager import ItemManager
-from game.manager.user_manager import UserManager
-from game.manager.combat_manager import CombatManager
-from game.manager.quest_manager import QuestManager
+from .item_manager import ItemManager
+from .user_manager import UserManager
+from .combat_manager import CombatManager
+from .quest_manager import QuestManager
 from config import loggers
 
 
@@ -39,3 +39,6 @@ class GameManager:
             # TODO send message about that to user
             return False
         return True
+
+    async def spawn_user(self, location_id: int):
+        ...

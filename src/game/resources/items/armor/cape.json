@@ -1,6 +1,7 @@
 {
     "item_type": "armor",
     "id": 2,
+    "identificator": "cape",
     "name": "Грязная накидка",
     "rare": "common",
     "cost": 0.0,

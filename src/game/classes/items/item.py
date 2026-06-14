@@ -8,32 +8,32 @@ if TYPE_CHECKING:
 
 class Item: # base class for all items
     """Default item class"""
-    def __init__(self, data: dict):
-        self.item_type = data.get("item_type", "another")
-        self.id: int = data.get("id", 0)
-        self.name: str = data.get("name", "Undefined item")
-        self.rarity: str = data.get("rare", "common")
-        self.cost: float = data.get("cost", 0)
-        self.description: str = data.get("description", "No description")
-        self.emoji: str = data.get("emoji", "❔")
-        self.stacked: bool = data.get("stacked", False)
+    def __init__(self, data: Optional[dict]=None):
+        self.type = data.get("type", "null") if data else "null"
+        self.identificator: str = data.get("identificator", "null") if data else "null"
+        self.name: str = data.get("name", "Undefined item") if data else "Undefined item"
+        self.rarity: str = data.get("rare", "common") if data else "common"
+        self.value: float = data.get("value", 0) if data else 0
+        self.description: str = data.get("description", "No description") if data else "No description"
+        self.emoji: str = data.get("emoji", "❔") if data else "❔"
+        self.stacked: bool = data.get("stacked", False) if data else False
     
     def interface(self, count: int) -> list[str]:
         info = [
             f"{self.emoji if self.emoji else '❔'}{self.name}",
-            f"⭐ Редкость: {self.rarity.capitalize()}\n💰 Цена: {self.cost} монет",
+            f"⭐ Редкость: {self.rarity.capitalize()}",
             f"💬 Описание:\n{self.description}",
-            f"👜 Колличество: {count}"
+            f"👜 Колличество: {count}\n💰 Ценность: {self.value}⭐"
         ]
         return info
 
     def to_dict(self) -> dict:
         return {
-            "item_type": self.item_type,
-            "id": self.id,
+            "identificator": self.identificator,
+            "type": self.type,
             "name": self.name,
             "rare": self.rarity,
-            "cost": self.cost,
+            "value": self.value,
             "description": self.description,
             "emoji": self.emoji,
             "stacked": self.stacked,
@@ -41,33 +41,42 @@ class Item: # base class for all items
 
 
 class EquipItem(Item):
-    def __init__(self, data: dict):
+    def __init__(self, data: Optional[dict]=None):
         super().__init__(data)
-        self.affixes = Affixes(data.get("affixes", {}), self.rarity if self.rarity else "common")
-        self.equip_requirements = EquipRequirements(data.get("equip_requirements", {}))
-        self.slot: str = data.get("slot", "")
-        self.durability: Durability = Durability(data=data.get("durability", {}))
+        self.affixes = Affixes(data.get("affixes", {}), self.rarity if self.rarity else "common") if data else Affixes()
+        self.equip_requirements = EquipRequirements(data.get("equip_requirements", {})) if data else EquipRequirements()
+        self.slot: str = data.get("slot", "") if data else ""
+        self.durability: Durability = Durability(data=data.get("durability", {})) if data else Durability()
+
+    def is_broken(self) -> bool:
+        return self.durability.status()
     
     def to_dict(self) -> dict:
         item_dict = super().to_dict()
         EquipItem_dict = {
             "affixes": self.affixes.to_dict(),
             "equip_requirements": self.equip_requirements.to_dict(),
-            "slot": self.slot
+            "slot": self.slot,
+            "durability": self.durability.to_dict()
         }
         item_dict.update(EquipItem_dict)
         return item_dict
 
 class EquipItemStats:
-    def __init__(self, stats: dict) -> None:
-        self.upgrade: int = stats.get("upgrade", 0)
+    def __init__(self, stats: Optional[dict]=None) -> None:
+        self.upgrade: int = stats.get("upgrade", 0) if stats else 0
+
+    def to_dict(self):
+        return {
+            "upgrade": self.upgrade
+        }
 
 class EquipRequirements:
-    def __init__(self, data: dict) -> None:
-        self.level = data.get("level", 1)
-        self.strength = data.get("strength", 0)
-        self.agility = data.get("agility", 0)
-        self.intelligence = data.get("intelligence", 0)
+    def __init__(self, data: Optional[dict]=None) -> None:
+        self.level = data.get("level", 1) if data else 1
+        self.strength = data.get("strength", 0) if data else 0
+        self.agility = data.get("agility", 0) if data else 0
+        self.intelligence = data.get("intelligence", 0) if data else 0
     
     def check_entity_attributes(self, entity: "Entity") -> bool:
         if entity.get_level() < self.level:
@@ -92,7 +101,7 @@ class EquipRequirements:
 
 class Durability:
     def __init__(
-            self, durability: int=1000, max_durability: int=1000,
+            self, durability: int=0, max_durability: int=0,
             data: Optional[dict]=None
         ) -> None:
         self.durability = data.get("durability", 0) if data else durability
@@ -109,3 +118,9 @@ class Durability:
             return False
         else:
             return True
+
+    def to_dict(self) -> dict:
+        return {
+            "durability": self.durability,
+            "max_durability": self.max_durability
+        }

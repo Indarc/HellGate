@@ -1,15 +1,14 @@
-from typing import Optional
-
-from db.executor import DB
-from game.classes.entity.user_class import User
+from db.executor import UserDB
 from config import ROOT_DIR, loggers
+
+from game.classes.entity import User
 
 
 PLAYERS_TEMP_FOLDER = ROOT_DIR / "game" / "temp" / "players"
 FILE_EXTANSION = ".json"
 
 class UserManager:
-    def __init__(self, user_db_executor: DB):
+    def __init__(self, user_db_executor: UserDB):
         self.users: dict[int, User] = {}
         self.user_db_executor = user_db_executor
 

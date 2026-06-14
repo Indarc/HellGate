@@ -4,26 +4,65 @@ import json
 from pathlib import Path
 from typing import Optional
 
+from db.executor import ItemsDB
 from game.classes.items import *
 
 from config import loggers
 
 
 class ItemManager:
-    def __init__(self, items_path: Path):
-        self.items_path = items_path
+    def __init__(self, items_db_executor: ItemsDB):
         self.item_classes = {
             "weapon": Weapon,
             "armor": Armor,
             "jewelry": Jewelry,
             "bag": Bag,
+            "materials": Material,
             "another": Item
         }
-        self.items: dict[int, Item] = self.__load_items()
+        self.items: dict[str, Item] = {}
+        self.items_db_executor = items_db_executor
+        self.logger = loggers.item_manager_logger
+
+    async def add(self, item_object: Item):
+        if not item_object.identificator:
+            self.logger.warning("To add new item to DB, item object must have uniq Identificator.")
+            return
+        if await self.get(item_object.identificator):
+            self.logger.warning(f"Item with Identificator [{item_object.identificator}] is already exist in DB.")
+            return
+        await self.items_db_executor.add(item_object=item_object)
     
-    def get_item(self, item_id: int) -> Optional[Item | EquipItem]:
+    async def get(self, identificator: str) -> Optional[Item | EquipItem]:
         """Return item object by item id"""
-        return self.items.get(item_id)
+        item_ = self.items.get(identificator)
+        if item_:
+            return item_
+        item_model = await self.items_db_executor.get(identificator)
+        if not item_model:
+            self.logger.warning(f"Can`t get item with identificator=[{identificator}]. Item does not exist.")
+            return
+        item_dict: dict = item_model.item_dict
+        if not item_dict:
+            self.logger.warning(f"Item [{item_model.identificator}] from DB have not item_dict field.")
+            return
+        item_class = self.item_classes[item_dict["type"]]
+        item: Item = item_class(data=item_dict)
+        if self.items.__len__() < 100:
+            self.items.update({item.identificator: item})
+        else:
+            lambda: (k := next(iter(self.items)), self.items.pop(k))
+            self.items.update({item.identificator: item})
+        return item
+
+    async def update(self, item_object: Item) -> bool:
+        item_local = self.items.pop(item_object.identificator, None)
+        if item_local:
+            self.logger.info(f"Remove item [{item_local.identificator}] from local memory")
+        if not await self.items_db_executor.update(item_object):
+            self.logger.error("Failde to update item in DB.")
+            return False
+        return True
 
     def dict_to_item(self, item_dict: dict) -> Optional[Item]:
         """Convert item dict to item object"""
@@ -43,36 +82,5 @@ class ItemManager:
         """Overload for dict_to_item method"""
         return self.dict_to_item(item_dict=item_dict)
 
-    def __load_items(self) -> dict:
-        items = {}
-        try:
-            items_path = {
-                "weapon": [self.items_path / "weapon" / p for p in os.listdir(self.items_path / "weapon") if p.endswith(".json")],
-                "armor": [self.items_path / "armor" / p for p in os.listdir(self.items_path / "armor") if p.endswith(".json")],
-                "jewelry": [self.items_path / "jewelry" / p for p in os.listdir(self.items_path / "jewelry") if p.endswith(".json")],
-                "another": [self.items_path / "another" / p for p in os.listdir(self.items_path / "another") if p.endswith(".json")]
-            }
-        except Exception as e:
-            loggers.game.error(f"Error with import items: {e}")
-            sys.exit(1)
-
-        for group_type, item_paths in items_path.items():
-            for path in item_paths:
-                with open(path, encoding="utf-8") as file:
-                    item_dict: dict = json.load(file)
-                    item_type = item_dict.get("item_type")
-                    if not item_type:
-                        loggers.game.warning(f"Item type not found in file {path}")
-                        continue
-                    if group_type != "another":
-                        if item_type != group_type and item_type not in self.item_classes.keys():
-                            loggers.game.warning(f"Item type mismatch: {item_type} != {group_type} in file {path}")
-                            continue
-                    item_class = self.item_classes.get(item_type)
-                    if not item_class:
-                        loggers.game.warning(f"Undefined item type: {item_type} in file {path}")
-                        continue
-                    item = item_class(data=item_dict)
-                    items.update({item_dict.get("id"): item})
-        loggers.game.info("Successfull items import")
-        return items
+    def get_all(self) -> dict[str, Item]:
+        ...

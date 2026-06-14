@@ -38,7 +38,7 @@ async def nickname_catch(message: Message, state: FSMContext):
     await state.clear()
     
     user_input= str(data.get("message"))
-    user_input = clear_string(user_input)
+    user_input = clear_string(user_input).capitalize()
     nicknames.update({message.chat.id: user_input})
 
     markup, text = accept_nickname()

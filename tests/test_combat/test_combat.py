@@ -7,7 +7,7 @@ from game.classes.items import Weapon, Armor
 
 def make_weapon(physical: int = 0, fire: int = 0, cold: int = 0, lightning: int = 0, crit_chance: float = 0.0):
     weapon_dict = {
-        "item_type": "weapon",
+        "type": "weapon",
         "id": 4,
         "name": "Огненный меч",
         "rare": "magic",
@@ -37,7 +37,7 @@ def make_weapon(physical: int = 0, fire: int = 0, cold: int = 0, lightning: int 
 
 def make_armor(armor: int=0, evasion: int=0):
     armor_dict = {
-        "item_type": "armor",
+        "type": "armor",
         "id": 2,
         "name": "Грязная накидка",
         "rare": "common",
