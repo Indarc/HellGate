@@ -256,6 +256,9 @@ class ResourceCreator:
         identificator_entry = tk.Entry(name_frame, font=("Arial", 14), bg="#4a4a4a", fg="#ffffff", width=30)
         identificator_entry.pack(side=tk.LEFT, padx=5)
 
+        emoji_frame = tk.Frame(main_frame, bg="#383838", width=800, height=50)
+        emoji_frame.pack(pady=5, padx=5, anchor="nw")
+
         rarity_frame = tk.Frame(main_frame, bg="#383838", width=800, height=50)
         rarity_frame.pack(pady=5, padx=5, anchor="nw")
         tk.Label(rarity_frame, text="Rarity:", font=("Arial", 14), bg="#383838", fg="#ffffff").pack(side=tk.LEFT)

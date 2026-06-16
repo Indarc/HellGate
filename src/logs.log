@@ -28998,3 +28998,114 @@
 2026-06-14 23:17:22 - config.logger - INFO - Bot connection successed
 2026-06-14 23:19:43 - config.logger - INFO - Start connecting bot
 2026-06-14 23:19:43 - config.logger - INFO - Bot connection successed
+2026-06-14 23:43:53 - config.logger - INFO - Start connecting bot
+2026-06-14 23:43:54 - config.logger - INFO - Bot connection successed
+2026-06-14 23:44:34 - config.logger - INFO - Start connecting bot
+2026-06-14 23:44:34 - config.logger - INFO - Bot connection successed
+2026-06-14 23:44:50 - config.logger - INFO - Start connecting bot
+2026-06-14 23:44:50 - config.logger - INFO - Bot connection successed
+2026-06-14 23:44:53 - config.logger - INFO - Start connecting bot
+2026-06-14 23:44:53 - config.logger - INFO - Bot connection successed
+2026-06-14 23:48:39 - config.logger - INFO - Start connecting bot
+2026-06-14 23:48:39 - config.logger - INFO - Bot connection successed
+2026-06-14 23:49:11 - config.logger - INFO - Start connecting bot
+2026-06-14 23:49:11 - config.logger - INFO - Bot connection successed
+2026-06-14 23:54:39 - config.logger - INFO - Start connecting bot
+2026-06-14 23:54:40 - config.logger - INFO - Bot connection successed
+2026-06-14 23:55:14 - config.logger - INFO - Start connecting bot
+2026-06-14 23:55:14 - config.logger - INFO - Bot connection successed
+2026-06-14 23:58:40 - config.logger - INFO - Start connecting bot
+2026-06-14 23:58:41 - config.logger - INFO - Bot connection successed
+2026-06-15 00:01:34 - config.logger - INFO - Start connecting bot
+2026-06-15 00:01:35 - config.logger - INFO - Bot connection successed
+2026-06-15 00:01:44 - config.logger - INFO - Start connecting bot
+2026-06-15 00:01:44 - config.logger - INFO - Bot connection successed
+2026-06-15 00:02:03 - config.logger - INFO - Start connecting bot
+2026-06-15 00:02:03 - config.logger - INFO - Bot connection successed
+2026-06-15 00:02:07 - config.logger - INFO - Start connecting bot
+2026-06-15 00:02:07 - config.logger - INFO - Bot connection successed
+2026-06-15 00:02:11 - config.logger - INFO - Start connecting bot
+2026-06-15 00:02:11 - config.logger - INFO - Bot connection successed
+2026-06-15 00:02:36 - config.logger - INFO - Start connecting bot
+2026-06-15 00:02:36 - config.logger - INFO - Bot connection successed
+2026-06-15 00:02:39 - config.logger - INFO - Start connecting bot
+2026-06-15 00:02:39 - config.logger - INFO - Bot connection successed
+2026-06-15 00:02:59 - config.logger - INFO - Start connecting bot
+2026-06-15 00:02:59 - config.logger - INFO - Bot connection successed
+2026-06-15 00:03:53 - config.logger - INFO - Start connecting bot
+2026-06-15 00:03:54 - config.logger - INFO - Bot connection successed
+2026-06-16 14:26:36 - config.logger - INFO - Start connecting bot
+2026-06-16 14:26:37 - config.logger - INFO - Bot connection successed
+2026-06-16 14:27:09 - config.logger - INFO - Start connecting bot
+2026-06-16 14:27:09 - config.logger - INFO - Bot connection successed
+2026-06-16 14:27:33 - config.logger - INFO - Start connecting bot
+2026-06-16 14:27:33 - config.logger - INFO - Bot connection successed
+2026-06-16 14:27:58 - config.logger - INFO - Start connecting bot
+2026-06-16 14:27:58 - config.logger - INFO - Bot connection successed
+2026-06-16 14:28:31 - config.logger - INFO - Start connecting bot
+2026-06-16 14:28:31 - config.logger - INFO - Bot connection successed
+2026-06-16 14:29:06 - config.logger - INFO - ✔️ Tortoise connection successed
+2026-06-16 14:29:06 - config.logger - INFO - ✔️ Models: ['UserModel', 'ItemsModel', 'TestUserModel', 'Aerich']
+2026-06-16 14:29:36 - config.logger - INFO - Start connecting bot
+2026-06-16 14:29:36 - config.logger - INFO - Bot connection successed
+2026-06-16 14:29:41 - config.logger - INFO - Start connecting bot
+2026-06-16 14:29:41 - config.logger - INFO - Bot connection successed
+2026-06-16 14:29:56 - config.logger - INFO - Start connecting bot
+2026-06-16 14:29:56 - config.logger - INFO - Bot connection successed
+2026-06-16 14:30:07 - config.logger - INFO - Start connecting bot
+2026-06-16 14:30:08 - config.logger - INFO - Bot connection successed
+2026-06-16 14:30:47 - config.logger - INFO - Start connecting bot
+2026-06-16 14:30:47 - config.logger - INFO - Bot connection successed
+2026-06-16 14:32:04 - config.logger - INFO - ✔️ Tortoise connection successed
+2026-06-16 14:32:04 - config.logger - INFO - ✔️ Models: ['UserModel', 'ItemsModel', 'TestUserModel', 'Aerich']
+2026-06-16 14:32:04 - game.item_manager.logger - WARNING - Can`t get item with identificator=[rusty_sword]. Item does not exist.
+2026-06-16 14:32:04 - db.items.logger - INFO - Created new item in ITEM_DB with identificator=rusty_sword
+2026-06-16 14:33:08 - config.logger - INFO - Start connecting bot
+2026-06-16 14:33:08 - config.logger - INFO - Bot connection successed
+2026-06-16 14:34:14 - config.logger - INFO - Start connecting bot
+2026-06-16 14:34:15 - config.logger - INFO - Bot connection successed
+2026-06-16 14:53:06 - config.logger - INFO - Start connecting bot
+2026-06-16 14:53:06 - config.logger - INFO - Bot connection successed
+2026-06-16 14:53:28 - config.logger - INFO - Start connecting bot
+2026-06-16 14:53:28 - config.logger - INFO - Bot connection successed
+2026-06-16 14:53:30 - config.logger - INFO - Start connecting bot
+2026-06-16 14:53:31 - config.logger - INFO - Bot connection successed
+2026-06-16 14:53:46 - config.logger - INFO - Start connecting bot
+2026-06-16 14:53:46 - config.logger - INFO - Bot connection successed
+2026-06-16 14:53:54 - config.logger - INFO - Start connecting bot
+2026-06-16 14:53:54 - config.logger - INFO - Bot connection successed
+2026-06-16 14:53:54 - game.logger - WARNING - Item id or type not found in dict: {'name': 'Incomplete Item', 'item_type': 'another', '_': 'another'}
+2026-06-16 14:53:54 - game.logger - WARNING - Item id or type not found in dict: {'id': 200, 'name': 'Incomplete Item', 'item_type': 'another'}
+2026-06-16 14:53:54 - game.logger - WARNING - Undefined item type: unknown in dict: {'id': 201, 'name': 'Unknown Item', 'item_type': 'unknown', '_': 'unknown', 'rare': 'common', 'cost': 50, 'description': 'Unknown type', 'emoji': '❔', 'stacked': False}
+2026-06-16 14:53:54 - game.inventory.logger - WARNING - Failed to add item with id null to slot [0] because of Вы пытаетесь положить слишком много предметов в один слот
+2026-06-16 14:53:54 - game.inventory.logger - WARNING - Failed to add item with id null to slot [0] because of Вы пытаетесь положить слишком много предметов в один слот
+2026-06-16 14:54:22 - config.logger - INFO - Start connecting bot
+2026-06-16 14:54:23 - config.logger - INFO - Bot connection successed
+2026-06-16 14:54:36 - config.logger - INFO - Start connecting bot
+2026-06-16 14:54:36 - config.logger - INFO - Bot connection successed
+2026-06-16 14:55:11 - config.logger - INFO - Start connecting bot
+2026-06-16 14:55:11 - config.logger - INFO - Bot connection successed
+2026-06-16 14:55:17 - config.logger - INFO - Start connecting bot
+2026-06-16 14:55:17 - config.logger - INFO - Bot connection successed
+2026-06-16 14:55:25 - config.logger - INFO - Start connecting bot
+2026-06-16 14:55:25 - config.logger - INFO - Bot connection successed
+2026-06-16 14:56:08 - config.logger - INFO - Start connecting bot
+2026-06-16 14:56:08 - config.logger - INFO - Bot connection successed
+2026-06-16 14:56:25 - config.logger - INFO - Start connecting bot
+2026-06-16 14:56:26 - config.logger - INFO - Bot connection successed
+2026-06-16 14:56:26 - game.user_manager.logger - ERROR - Can`t load user with id 999 from DB, user not found
+2026-06-16 14:56:26 - game.user_manager.logger - ERROR - Can`t load user with id 555 from DB, user not found
+2026-06-16 14:56:26 - game.user_manager.logger - ERROR - Can`t update user in DB, user object not found in self.users
+2026-06-16 14:56:26 - game.user_manager.logger - INFO - ✔️Successfull export users to DB
+2026-06-16 14:56:26 - game.user_manager.logger - INFO - ✔️Successfull export users to DB
+2026-06-16 14:56:26 - game.user_manager.logger - ERROR - Can`t load user with id 0 from DB, user not found
+2026-06-16 14:56:26 - game.user_manager.logger - ERROR - Can`t update user in DB, user object not found in self.users
+2026-06-16 14:56:26 - game.user_manager.logger - INFO - ✔️Successfull export users to DB
+2026-06-16 14:56:52 - config.logger - INFO - Start connecting bot
+2026-06-16 14:56:52 - config.logger - INFO - Bot connection successed
+2026-06-16 14:56:54 - config.logger - INFO - Start connecting bot
+2026-06-16 14:56:54 - config.logger - INFO - Bot connection successed
+2026-06-16 14:56:59 - config.logger - INFO - Start connecting bot
+2026-06-16 14:56:59 - config.logger - INFO - Bot connection successed
+2026-06-16 14:57:03 - config.logger - INFO - Start connecting bot
+2026-06-16 14:57:03 - config.logger - INFO - Bot connection successed

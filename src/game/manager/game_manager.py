@@ -18,16 +18,18 @@ class GameManager:
     def get_user(self, user_id: int):
         return self.user_manager.load_user(user_id)
     
-    def get_item(self, item_id: int) -> Item | None:
-        return self.item_manager.get_item(item_id)
+    async def get_item(self, item_identificator: str) -> Item | None:
+        return await self.item_manager.get(item_identificator)
+
+
     
-    async def give_item_to_player(self, user_id: int, item_id: int) -> bool:
+    async def give_item_to_player(self, user_id: int, item_identificator: str) -> bool:
         user = await self.get_user(user_id)
         if not user:
             return False
-        item = self.get_item(item_id)
+        item = await self.get_item(item_identificator)
         if not item:
-            loggers.game.error(f"Item with ID {item_id} not found.")
+            loggers.game.error(f"Item with ID {item_identificator} not found.")
             return False
         try:
             user.player.inventory.add_item(item)
