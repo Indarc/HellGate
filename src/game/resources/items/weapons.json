@@ -1,0 +1,700 @@
+[{
+  "name": "Ржавый меч",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "⚔️",
+  "stats": {
+    "crit": 1.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 3.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.2,
+    "attack_speed": 0.8
+  },
+  "value": 0,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 300,
+    "max_durability": 300
+  },
+  "description": "Ржавый меч найденный в чаще леса.",
+  "identificator": "rusty_sword",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 1,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Тупой кинжал",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🗡️",
+  "stats": {
+    "crit": 2.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 2.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.3,
+    "attack_speed": 1.2
+  },
+  "value": 1,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 250,
+    "max_durability": 250
+  },
+  "description": "Простой кинжал с затупившимся лезвием.",
+  "identificator": "dull_dagger",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 1,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Железный кинжал",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🗡️",
+  "stats": {
+    "crit": 3.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 4.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.35,
+    "attack_speed": 1.3
+  },
+  "value": 1,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 350,
+    "max_durability": 350
+  },
+  "description": "Обычный железный кинжал для охотников и путешественников.",
+  "identificator": "iron_dagger",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 2,
+    "agility": 2,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Охотничий кинжал",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🗡️",
+  "stats": {
+    "crit": 4.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 5.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.4,
+    "attack_speed": 1.4
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 400,
+    "max_durability": 400
+  },
+  "description": "Лёгкий кинжал, которым удобно свежевать добычу.",
+  "identificator": "hunter_dagger",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 3,
+    "agility": 4,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Сбалансированный кинжал",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🗡️",
+  "stats": {
+    "crit": 5.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 6.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.5,
+    "attack_speed": 1.5
+  },
+  "value": 3,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 450,
+    "max_durability": 450
+  },
+  "description": "Хорошо сбалансированный кинжал для быстрых атак.",
+  "identificator": "balanced_dagger",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 5,
+    "agility": 7,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Железный меч",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "⚔️",
+  "stats": {
+    "crit": 2.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 6.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.3,
+    "attack_speed": 1.0
+  },
+  "value": 1,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 450,
+    "max_durability": 450
+  },
+  "description": "Простой железный меч для начинающих воинов.",
+  "identificator": "iron_sword",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 3,
+    "agility": 0,
+    "strength": 3,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Стальной меч",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "⚔️",
+  "stats": {
+    "crit": 3.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 8.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.4,
+    "attack_speed": 1.0
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 550,
+    "max_durability": 550
+  },
+  "description": "Крепкий стальной меч с хорошо заточенным лезвием.",
+  "identificator": "steel_sword",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 6,
+    "agility": 0,
+    "strength": 6,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Длинный двуручный меч",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "⚔️",
+  "stats": {
+    "crit": 2.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 12.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.4,
+    "attack_speed": 0.7
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 700,
+    "max_durability": 700
+  },
+  "description": "Тяжёлый двуручный меч с длинным клинком.",
+  "identificator": "long_greatsword",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 6,
+    "agility": 0,
+    "strength": 8,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Стальной клеймор",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "⚔️",
+  "stats": {
+    "crit": 3.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 15.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.5,
+    "attack_speed": 0.65
+  },
+  "value": 3,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 850,
+    "max_durability": 850
+  },
+  "description": "Массивный двуручный меч для сильных воинов.",
+  "identificator": "steel_claymore",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 10,
+    "agility": 0,
+    "strength": 12,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Короткий лук",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🏹",
+  "stats": {
+    "crit": 4.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 5.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.5,
+    "attack_speed": 1.4
+  },
+  "value": 1,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 300,
+    "max_durability": 300
+  },
+  "description": "Лёгкий лук для охоты и обучения стрельбе.",
+  "identificator": "short_bow",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 3,
+    "agility": 4,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Охотничий лук",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🏹",
+  "stats": {
+    "crit": 6.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 8.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.6,
+    "attack_speed": 1.3
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 400,
+    "max_durability": 400
+  },
+  "description": "Качественный лук для опытных охотников.",
+  "identificator": "hunter_bow",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 7,
+    "agility": 8,
+    "strength": 0,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Железный топор",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🪓",
+  "stats": {
+    "crit": 2.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 7.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.4,
+    "attack_speed": 0.9
+  },
+  "value": 1,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 500,
+    "max_durability": 500
+  },
+  "description": "Тяжёлый одноручный топор с железным лезвием.",
+  "identificator": "iron_axe",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 4,
+    "agility": 0,
+    "strength": 5,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Лесорубный топор",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🪓",
+  "stats": {
+    "crit": 3.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 16.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.5,
+    "attack_speed": 0.6
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 800,
+    "max_durability": 800
+  },
+  "description": "Массивный топор способный валить деревья и врагов.",
+  "identificator": "lumber_axe",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 8,
+    "agility": 0,
+    "strength": 10,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Боевой секач",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🪓",
+  "stats": {
+    "crit": 4.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 20.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.6,
+    "attack_speed": 0.55
+  },
+  "value": 3,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 1000,
+    "max_durability": 1000
+  },
+  "description": "Огромный боевой топор для сокрушительных ударов.",
+  "identificator": "battle_cleaver",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 12,
+    "agility": 0,
+    "strength": 15,
+    "intelligence": 0
+  }
+},
+{
+  "name": "Деревянный жезл",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🪄",
+  "stats": {
+    "crit": 3.0,
+    "damage": {
+      "cold": 2.0,
+      "fire": 0.0,
+      "physical": 1.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.4,
+    "attack_speed": 1.1
+  },
+  "value": 1,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 250,
+    "max_durability": 250
+  },
+  "description": "Простой жезл ученика мага.",
+  "identificator": "wooden_wand",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 2,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 3
+  }
+},
+{
+  "name": "Жезл ученика",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🪄",
+  "stats": {
+    "crit": 4.0,
+    "damage": {
+      "cold": 3.0,
+      "fire": 3.0,
+      "physical": 0.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.5,
+    "attack_speed": 1.2
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 350,
+    "max_durability": 350
+  },
+  "description": "Жезл используемый учениками магических академий.",
+  "identificator": "apprentice_wand",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 5,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 6
+  }
+},
+{
+  "name": "Искрящийся жезл",
+  "rare": "common",
+  "slot": "mainhand",
+  "type": "weapon",
+  "emoji": "🪄",
+  "stats": {
+    "crit": 5.0,
+    "damage": {
+      "cold": 0.0,
+      "fire": 0.0,
+      "physical": 0.0,
+      "lightning": 8.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.6,
+    "attack_speed": 1.25
+  },
+  "value": 3,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 400,
+    "max_durability": 400
+  },
+  "description": "Накопленная в кристалле энергия создаёт небольшие электрические разряды.",
+  "identificator": "spark_wand",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 8,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 10
+  }
+},
+{
+  "name": "Посох ученика",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🧙",
+  "stats": {
+    "crit": 3.0,
+    "damage": {
+      "cold": 4.0,
+      "fire": 4.0,
+      "physical": 2.0,
+      "lightning": 0.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.4,
+    "attack_speed": 0.9
+  },
+  "value": 2,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 450,
+    "max_durability": 450
+  },
+  "description": "Длинный деревянный посох с простым магическим кристаллом.",
+  "identificator": "apprentice_staff",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 4,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 5
+  }
+},
+{
+  "name": "Магический посох",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🧙",
+  "stats": {
+    "crit": 5.0,
+    "damage": {
+      "cold": 5.0,
+      "fire": 5.0,
+      "physical": 0.0,
+      "lightning": 5.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.6,
+    "attack_speed": 0.85
+  },
+  "value": 3,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 600,
+    "max_durability": 600
+  },
+  "description": "Посох с магическим кристаллом способный усиливать заклинания.",
+  "identificator": "magic_staff",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 8,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 10
+  }
+},
+{
+  "name": "Посох стихий",
+  "rare": "common",
+  "slot": "twohand",
+  "type": "weapon",
+  "emoji": "🧙",
+  "stats": {
+    "crit": 7.0,
+    "damage": {
+      "cold": 7.0,
+      "fire": 7.0,
+      "physical": 0.0,
+      "lightning": 7.0
+    },
+    "upgrade": 0,
+    "crit_multy": 1.8,
+    "attack_speed": 0.8
+  },
+  "value": 4,
+  "affixes": null,
+  "stacked": false,
+  "durability": {
+    "durability": 750,
+    "max_durability": 750
+  },
+  "description": "Редко встречающийся среди обычных магов посох, наполненный силой стихий.",
+  "identificator": "elemental_staff",
+  "equip_requirements": {
+    "_": "EquipRequirements",
+    "level": 12,
+    "agility": 0,
+    "strength": 0,
+    "intelligence": 15
+  }
+}]

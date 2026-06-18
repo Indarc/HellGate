@@ -19,7 +19,7 @@ class Level:
     def lvl_up(self, count: int = 1):
         # remnant = self.max_experience - self.experience
         self.level += count
-        self.experience = (self.experience - self.max_experience) if self.experience >= self.max_experience else self.experience # to absorb error with extra lvl_up
+        self.experience = self.experience - self.max_experience
         self.max_experience = self.level * 10
         self.tracking_attributes.add_upgrade_points(3)
 
@@ -28,7 +28,7 @@ class Level:
         if self.experience >= self.max_experience:
             self.lvl_up()
 
-    def add_exp(self, exp) -> None:
+    def add_exp(self, exp: int) -> None:
         self.experience += exp
         if self.experience >= self.max_experience:
             self.lvl_up()

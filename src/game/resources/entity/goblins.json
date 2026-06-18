@@ -1,0 +1,169 @@
+[{
+  "name": "Гоблин-воин",
+  "identificator": "goblin_warrior",
+  "emoji": "👺",
+  "description": "Вооружённый грубым оружием гоблин. Любит нападать на одиноких путников и защищать своё племя.",
+  "base_hp": 12,
+  "stats": {
+    "armor": 2,
+    "evasion": 3,
+    "damage": {
+      "physical": 5.0,
+      "fire": 0.0,
+      "cold": 0.0,
+      "lightning": 0.0
+    },
+    "crit": 2.0,
+    "crit_multy": 1.3,
+    "attack_speed": 1.0
+  },
+  "loot": [
+    {
+      "item": "rusty_sword",
+      "chance": 5.0,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "experience": 4
+},
+{
+  "name": "Гоблин-лучник",
+  "identificator": "goblin_archer",
+  "emoji": "🏹",
+  "description": "Предпочитает держаться на расстоянии и обстреливать врагов из лука, избегая ближнего боя.",
+  "base_hp": 8,
+  "stats": {
+    "armor": 0,
+    "evasion": 7,
+    "damage": {
+      "physical": 6.0,
+      "fire": 0.0,
+      "cold": 0.0,
+      "lightning": 0.0
+    },
+    "crit": 5.0,
+    "crit_multy": 1.4,
+    "attack_speed": 1.2
+  },
+  "loot": [
+    {
+      "item": "short_bow",
+      "chance": 3.0,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "experience": 5
+},
+{
+  "name": "Гоблин-берсерк",
+  "identificator": "goblin_berserker",
+  "emoji": "🪓",
+  "description": "Обезумевший от ярости гоблин, который полностью игнорирует собственную безопасность ради мощных ударов.",
+  "base_hp": 16,
+  "stats": {
+    "armor": 0,
+    "evasion": 1,
+    "damage": {
+      "physical": 9.0,
+      "fire": 0.0,
+      "cold": 0.0,
+      "lightning": 0.0
+    },
+    "crit": 6.0,
+    "crit_multy": 1.6,
+    "attack_speed": 1.15
+  },
+  "loot": [
+    {
+      "item": "goblin_leather",
+      "chance": 65.0,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "iron_axe",
+      "chance": 4.0,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "experience": 8
+},
+{
+  "name": "Предводитель гоблинов",
+  "identificator": "goblin_chieftain",
+  "emoji": "👹",
+  "description": "Вожак небольшой банды гоблинов. Намного сильнее и хитрее своих сородичей, а его приказы беспрекословно выполняются всей стаей.",
+  "base_hp": 40,
+  "stats": {
+    "armor": 6,
+    "evasion": 5,
+    "damage": {
+      "physical": 14.0,
+      "fire": 0.0,
+      "cold": 0.0,
+      "lightning": 0.0
+    },
+    "crit": 8.0,
+    "crit_multy": 1.7,
+    "attack_speed": 1.1
+  },
+  "loot": [
+    {
+      "item": "goblin_leather",
+      "chance": 100.0,
+      "min": 3,
+      "max": 6
+    },
+    {
+      "item": "iron_axe",
+      "chance": 20.0,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "item": "hunter_dagger",
+      "chance": 20.0,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "item": "iron_sword",
+      "chance": 20,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "experience": 25
+},
+{
+  "name": "Владыка гоблинов",
+  "identificator": "goblin_overlord",
+  "emoji": "👺",
+  "description": "Легендарный правитель гоблинских племён. Его появление объединяет разрозненные банды в единую армию, способную угрожать целым поселениям.",
+  "base_hp": 75,
+  "stats": {
+    "armor": 12,
+    "evasion": 8,
+    "damage": {
+      "physical": 24.0,
+      "fire": 0.0,
+      "cold": 0.0,
+      "lightning": 0.0
+    },
+    "crit": 12.0,
+    "crit_multy": 2.0,
+    "attack_speed": 1.25
+  },
+  "loot": [
+    {
+      "item": "goblin_leather",
+      "chance": 100.0,
+      "min": 8,
+      "max": 15
+    }
+  ],
+  "experience": 60
+}]

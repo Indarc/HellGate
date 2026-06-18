@@ -1,0 +1,20 @@
+[{
+  "type": "material",
+  "identificator": "slime_gel",
+  "name": "Слизь",
+  "rare": "common",
+  "value": 1,
+  "description": "Полупрозрачный сгусток слизи, оставшийся после гибели слизня. Используется в простых алхимических рецептах.",
+  "emoji": "🟢",
+  "stacked": true
+},
+{
+  "type": "material",
+  "identificator": "goblin_leather",
+  "name": "Кожа гоблина",
+  "rare": "uncommon",
+  "value": 2,
+  "description": "Грубая, но прочная кожа, снятая с гоблина. Используется ремесленниками для создания лёгкой брони и экипировки.",
+  "emoji": "🟫",
+  "stacked": true
+}]

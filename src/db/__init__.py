@@ -1,8 +1,9 @@
 from .models import (
     UserModel,
     TestUserModel,
-    ItemsModel
+    ItemsModel,
+    EntityModel
 )
 from . import executor
 
-__all__ = ["UserModel", "TestUserModel", "ItemsModel", "executor"]
+__all__ = ["UserModel", "TestUserModel", "ItemsModel", "EntityModel", "executor"]

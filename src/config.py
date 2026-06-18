@@ -56,10 +56,12 @@ except Exception as ex:
 
 # создание инструмента для работы с DB
 # import DB and User model now that loggers is available
-from db import executor, UserModel, ItemsModel
+from db import executor, UserModel, ItemsModel, EntityModel
 
-user_db = executor.UserDB(tracking_database=UserModel, logger=loggers.user_db_logger)
-items_db = executor.ItemsDB(tracking_database=ItemsModel, logger=loggers.items_db_logger)
+# Instantiate models before passing to executor to satisfy expected instance types
+user_db = executor.UserDB(tracking_database=UserModel(), logger=loggers.user_db_logger)
+items_db = executor.ItemsDB(tracking_database=ItemsModel(), logger=loggers.items_db_logger)
+entity_db = executor.EntityDB(tracking_database=EntityModel(), logger=loggers.entity_db_logger)
 
 async def init_db():
     try:
@@ -109,6 +111,7 @@ TORTOISE_ORM = {
             "models": [
                 "db.models.user",
                 "db.models.items",
+                "db.models.entity",
                 "db.models.test_user",
                 "aerich.models"
             ],

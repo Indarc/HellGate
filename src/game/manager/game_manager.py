@@ -4,16 +4,18 @@ from .item_manager import ItemManager
 from .user_manager import UserManager
 from .combat_manager import CombatManager
 from .quest_manager import QuestManager
+from .entity_manager import EntityManager
 from config import loggers
 
 
 class GameManager:
     """Class for managing game state and interactions"""
-    def __init__(self, user_manager: UserManager, item_manager: ItemManager, combat_manager: CombatManager, quest_manager: QuestManager):
+    def __init__(self, user_manager: UserManager, item_manager: ItemManager, entity_manager: EntityManager, combat_manager: CombatManager, quest_manager: QuestManager):
         self.user_manager: UserManager = user_manager
         self.item_manager: ItemManager = item_manager
         self.combat_manager = combat_manager
         self.quest_manager = quest_manager
+        self.entity_manager = entity_manager
     
     def get_user(self, user_id: int):
         return self.user_manager.load_user(user_id)

@@ -51,6 +51,7 @@ class ResourceCreator:
         def save_item():
             item_name = name_entry.get()
             item_type = item_type_combobox.get()
+            item_emoji = emoji_combobox.get()
             item_rarity = rarity_combobox.get()
             item_stackable = stackable_var.get()
             item_description = description_text.get("1.0", "end-1c")
@@ -62,6 +63,7 @@ class ResourceCreator:
             item_dict = {
                 "identificator": item_identificator.lower(),
                 "type": item_type.lower(),
+                "emoji": item_emoji,
                 "name": item_name.capitalize(),
                 "rarity": item_rarity.lower(),
                 "stacked": item_stackable,
@@ -258,6 +260,9 @@ class ResourceCreator:
 
         emoji_frame = tk.Frame(main_frame, bg="#383838", width=800, height=50)
         emoji_frame.pack(pady=5, padx=5, anchor="nw")
+        tk.Label(emoji_frame, text="Emoji:", font=("Arial", 14), bg="#383838", fg="#ffffff").pack(side=tk.LEFT)
+        emoji_combobox = ttk.Combobox(emoji_frame, values=["💼", "💧", "⭐", "🍎", "⛏️", "💎", "💰", "⚔️", "🛡️", "🧨", "📿", "💊"], font=("Arial", 14))
+        emoji_combobox.pack(side=tk.LEFT)
 
         rarity_frame = tk.Frame(main_frame, bg="#383838", width=800, height=50)
         rarity_frame.pack(pady=5, padx=5, anchor="nw")
@@ -314,8 +319,8 @@ class ResourceCreator:
                 entity_drop = drop_listbox.get("0", "end")
                 drop = []
                 for item_drop in entity_drop:
-                    item_id, max_count = item_drop.split(":")
-                    item = game_manager.get_item(int(item_id))
+                    item_identificator, max_count = item_drop.split(":")
+                    item = game_manager.get_item(item_identificator)
                     drop.append([item, int(max_count)])
                 data = {
                     "base_hp": entity_health,

@@ -4,17 +4,18 @@ from game.classes.entity.resistances import Resistances
 from game.classes.items.damages import Damage
 from game.classes.items.weapon import Weapon
 
-from ..entity import Equipment
-from .attributes import Attributes
+
 
 if TYPE_CHECKING:
     from game.manager import AttackResult
     from ..entity import Entity
+    from ..entity import Equipment
+    from .attributes import Attributes
 
 
 class Characteristics:
     """Класс для брони, урона, уклонения и тп"""
-    def __init__(self, tracking_attributes: Attributes, tracking_equipment: Equipment, resistances: dict, base_hp: int = 20) -> None:
+    def __init__(self, tracking_attributes: "Attributes", tracking_equipment: "Equipment", resistances: dict, base_hp: int = 20) -> None:
         self.tracking_attributes = tracking_attributes
         self.tracking_equipment = tracking_equipment
         self.resistances = Resistances(resistances)
@@ -30,7 +31,7 @@ class Characteristics:
         additional_hp = 0
         for stat, value in hp_equipment_buffes.items():
             if stat == "strength":
-                additional_hp += value * Attributes.streng_hp_multiplicator
+                additional_hp += value * 5
             elif stat == "max_health":
                 additional_hp += value
         total_hp = base_hp + hp_from_strength + additional_hp

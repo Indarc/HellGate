@@ -3,9 +3,10 @@ from .game_manager import GameManager
 from .item_manager import ItemManager
 from .quest_manager import QuestManager
 from .user_manager import UserManager
+from .entity_manager import EntityManager
 
 
-__all__ = ["CombatManager", "GameManager", "ItemManager", "QuestManager", "UserManager", "AttackResult"]
+__all__ = ["CombatManager", "GameManager", "ItemManager", "QuestManager", "UserManager", "AttackResult", "EntityManager"]
 
 
 class AttackResult:

@@ -1,0 +1,37 @@
+[{
+  "type": "enemy",
+  "name": "Зелёный слизень",
+  "identificator": "green_slime",
+  "emoji": "🟢",
+  "description": "Небольшое желеобразное существо. Безобидно поодиночке, но опасно в больших группах.",
+  "rare": "common",
+  "level": 1,
+  "base_hp": 10,
+  "attributes": {
+    "strength": 0,
+    "agility": 1,
+    "intelligence": 0
+  },
+  "stats": {
+    "armor": 0,
+    "evasion": 2,
+    "damage": {
+      "physical": 2.0,
+      "fire": 0.0,
+      "cold": 0.0,
+      "lightning": 0.0
+    },
+    "crit": 0.0,
+    "crit_multy": 1.2,
+    "attack_speed": 0.8
+  },
+  "loot": [
+    {
+      "item": "slime_gel",
+      "chance": 75.0,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "experience": 2
+}]

@@ -4,7 +4,7 @@ from game.classes.items.damages import Damage
 from config import loggers
 
 from .equipment import Equipment
-from .characteristicts import Level, Attributes, Characteristics
+from .characteristicts import Attributes, Characteristics
 from game.classes.inventory.error_class import DontEnoughSlotsError
 from game.classes.inventory.inventory import Inventory
 from game.classes.items.item import EquipItem
@@ -19,9 +19,9 @@ class Entity:
         if not name and not data:
             loggers.game_classes.error("[ENTITY_INIT] Entity object requered paramateres to initializating")
             return
-        self.base_hp = data.get("base_hp", 20) if data else 20
-        self.entity_type = data.get("entity_type", "entity") if data else "entity"
+        self.type = data.get("type", "entity") if data else "entity"
         self.name: str = data.get("name", "Unknow") if data else name if name else "Unknow"
+        self.base_hp = data.get("base_hp", 20) if data else 20
         self.inventory = Inventory(data=data.get("inventory", None)) if data else Inventory()
         self.attributes: Attributes = Attributes(data=data.get("attributes", None)) if data else Attributes()
         self.equipment: Equipment = Equipment(data=data.get("equipment", None)) if data else Equipment()
@@ -30,7 +30,7 @@ class Entity:
             self.equipment,
             data.get("resistances", {}) if data else {},
             base_hp=self.base_hp)
-        self.level: Level = Level(data=data.get("level", {}), tracking_attributes=self.attributes) if data else Level(tracking_attributes=self.attributes)
+        
 
     def equip_item(self, item: Optional[EquipItem]=None, slot_id: Optional[int]=None) -> bool:
         # 1. проверка характеристик
@@ -51,7 +51,7 @@ class Entity:
         requirements_status = item_to_equip.equip_requirements.check_entity_attributes(self)
         if not requirements_status:
             # TODO send message to player about characteristics requirements
-            loggers.game_classes.debug(f"Player doesn't meet the requirements for equipping item id {item_to_equip.identificator} and requirements {item_to_equip.equip_requirements}")
+            loggers.game_classes.info(f"Player doesn't meet the requirements for equipping item id {item_to_equip.identificator} and requirements {item_to_equip.equip_requirements}")
             return False
         # 2
         previos_equiped_item = self.equipment.equip_item(item_to_equip)
@@ -71,10 +71,9 @@ class Entity:
             return False
         self.inventory.add_item(item)
         return True
-
-
+    
     def get_level(self) -> int:
-        return self.level.get_level()
+        ...
 
     def get_health(self) -> float:
         return self.characteristics.get_health()
@@ -114,9 +113,6 @@ class Entity:
             return True
         return False
 
-    def add_experience(self, exp: int) -> None:
-        self.level.add_exp(exp)
-
     def check_alive(self) -> bool:
         return self.characteristics.check_alive()
 
@@ -140,7 +136,7 @@ class Entity:
         text = f"""
 ❤️HP: [{self.characteristics.health}/{self.get_max_health()}]
 Имя: {self.name}
-Уровень: {self.level.get_level()}
+Уровень: {self.get_level()}
 
 ⚔️Урон: {self.get_damage().to_dict()}
 🛡️Броня: {self.get_armor_rating()}
@@ -152,10 +148,11 @@ class Entity:
     def to_dict(self) -> dict:
         return {
             "_": "Entity",
+            "type": self.type,
             "name": self.name,
             "base_hp": self.base_hp,
             "inventory": self.inventory.to_dict(),
             "attributes": self.attributes.to_dict(),
             "equipment": self.equipment.to_dict(),
-            "level": self.level.to_dict(),
+            "resistance": self.characteristics.resistances.to_dict()
         }

@@ -1,41 +1,48 @@
 from typing import Optional
 
-from game.classes.inventory import DontEnoughSlotsError
-from game.classes.items import EquipItem
-from config import loggers
-
+from .characteristicts import Level
 from .entity import Entity
 from game.classes.quests.default_quest import Quest
 from game.classes.items import *
+from game.classes.inventory.inventory import Inventory
 
 
 class Player(Entity):
     def __init__(self, name: Optional[str]=None, data: Optional[dict]=None):
         super().__init__(name=name, data=data)
+        self.type = "player"
+        self.identificator = "player"
         self.money = data.get("money") if data and data.get("money") else 0
         self.active_quest: Optional[Quest] = data.get("active_quest") if data and data.get("active_quest") else None
+        self.level: Level = Level(data=data.get("level", {}), tracking_attributes=self.attributes) if data else Level(tracking_attributes=self.attributes)
 
     def get_attributes(self) -> dict[str, int]:
         return self.attributes.to_dict()
+    
+    def get_level(self) -> int:
+        return self.level.get_level()
+    
+    def add_experience(self, exp: int) -> None:
+        self.level.add_exp(exp)
 
     def banner(self) -> str:
         exp = self.level.get_experience()
         text = f"""
 ┌────── ▰▰☆▰▰ ──────┐
- ───❤️HP: {self.get_health()}/{self.get_max_health()}
- ───Имя: {self.name}
- ───Уровень: {self.get_level()}
- ───Опыт: {exp[0]}/{exp[1]}
-
- ───⚔️Урон: {self.get_damage().interface()}
- ───🛡️Броня: {self.get_armor_rating()}
- ───👟Уклонение: {self.get_evasion_rating()}
- ───🎯Точность: {self.get_accuracy_rating()}
-
- ───Атрибуты:
- ───💪Сила: {self.attributes.get_strength()}
- ───🤲Ловкость: {self.attributes.get_agility()}
- ───🧠Интелект: {self.attributes.get_intelligence()}
+|—❤️HP: {self.get_health()}/{self.get_max_health()}
+|—Имя: {self.name}
+|—Уровень: {self.get_level()}
+|—Опыт: {exp[0]}/{exp[1]}
+|
+|—⚔️Урон: {self.get_damage().interface()}
+|—🛡️Броня: {self.get_armor_rating()}
+|—👟Уклонение: {self.get_evasion_rating()}
+|—🎯Точность: {self.get_accuracy_rating()}
+|
+|—Атрибуты
+|—💪Сила: {self.attributes.get_strength()}
+|—🤲Ловкость: {self.attributes.get_agility()}
+|—🧠Интелект: {self.attributes.get_intelligence()}
 └────── ▰▰☆▰▰ ──────┘
 """
         return text
@@ -45,7 +52,8 @@ class Player(Entity):
         update_info = {
             "_": "Player",
             "money": self.money,
-            "active_quest": self.active_quest.to_dict() if self.active_quest is not None else None
+            "active_quest": self.active_quest.to_dict() if self.active_quest is not None else None,
+            "level": self.level.to_dict()
         }
         entity_dict.update(update_info)
         return entity_dict

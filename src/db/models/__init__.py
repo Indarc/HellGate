@@ -2,5 +2,6 @@
 from .user import UserModel
 from .test_user import TestUserModel
 from .items import ItemsModel
+from .entity import EntityModel
 
-__all__ = ["UserModel", "TestUserModel", "ItemsModel"]
+__all__ = ["UserModel", "TestUserModel", "ItemsModel", "EntityModel"]
